@@ -1,0 +1,6 @@
+rootProject.name = "Video Editor"
+include ':app'
+include ':platform'
+include ':core_ui'
+include ':feature_editor'
+include ':feature_gallery'

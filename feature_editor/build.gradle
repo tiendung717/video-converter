@@ -1,0 +1,57 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdk rootProject.compile_sdk
+    buildToolsVersion rootProject.buildTools
+
+    defaultConfig {
+        minSdkVersion rootProject.min_sdk
+        targetSdkVersion rootProject.target_sdk
+        versionCode rootProject.version_code
+        versionName rootProject.version_name
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = rootProject.java_source_version
+        targetCompatibility = rootProject.java_target_version
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+dependencies {
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':core_ui')
+    implementation project(':platform')
+
+    implementation rootProject.deps.coreKtx
+    implementation rootProject.deps.appCompat
+    implementation rootProject.deps.material
+    implementation rootProject.deps.lifeCycleViewModel
+
+    implementation rootProject.deps.hiltLifecycleViewModel
+    implementation rootProject.deps.hiltAndroid
+    kapt rootProject.deps.kaptHiltAndroidCompiler
+
+    implementation rootProject.deps.rxAndroid
+    implementation rootProject.deps.rxJava
+
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}

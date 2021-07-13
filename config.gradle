@@ -1,0 +1,70 @@
+rootProject.ext.java_source_version = JavaVersion.VERSION_1_8
+rootProject.ext.java_target_version = JavaVersion.VERSION_1_8
+
+rootProject.ext.target_sdk = 30
+rootProject.ext.compile_sdk = 30
+rootProject.ext.min_sdk = 21
+rootProject.ext.buildTools = "30.0.3"
+rootProject.ext.version_code = 1
+rootProject.ext.version_name = "1.0.0"
+
+
+rootProject.ext.lifecycle_viewmodel = '2.3.1'
+rootProject.ext.material = '1.3.0'
+rootProject.ext.core_ktx = '1.3.2'
+rootProject.ext.appcompat = '1.2.0'
+rootProject.ext.hilt = '2.35'
+rootProject.ext.hilt_compiler = "1.0.0-alpha03"
+rootProject.ext.hilt_lifecycle_viewmodel = "1.0.0-alpha03"
+rootProject.ext.room = '2.4.0-alpha02'
+rootProject.ext.preference = '1.1.1'
+rootProject.ext.epoxy = '4.3.1'
+rootProject.ext.butter_knife = '10.2.3'
+rootProject.ext.glide = '4.12.0'
+rootProject.ext.navigation = '2.3.5'
+rootProject.ext.rx_android = '2.1.1'
+rootProject.ext.rx_java = '2.2.12'
+
+rootProject.ext.deps = [
+        coreKtx                : "androidx.core:core-ktx:$core_ktx",
+        appCompat              : "androidx.appcompat:appcompat:$appcompat",
+        material               : "com.google.android.material:material:$material",
+        lifeCycleViewModel     : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_viewmodel",
+
+        // Hilt
+        hiltLifecycleViewModel : "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_lifecycle_viewmodel",
+        hiltAndroid            : "com.google.dagger:hilt-android:$hilt",
+        kaptHiltAndroidCompiler: "com.google.dagger:hilt-android-compiler:$hilt",
+        kaptHiltCompiler       : "androidx.hilt:hilt-compiler:$hilt_compiler",
+
+        // RxJava
+        rxAndroid              : "io.reactivex.rxjava2:rxandroid:$rx_android",
+        rxJava                 : "io.reactivex.rxjava2:rxjava:$rx_java",
+        rxRoomAdaper           : "androidx.room:room-rxjava2:$room",
+
+        // Room
+        roomRuntime            : "androidx.room:room-runtime:$room",
+        annotationProcessorRoom: "androidx.room:room-compiler:$room",
+        kaptRoom               : "androidx.room:room-compiler:$room",
+        roomKtx                : "androidx.room:room-ktx:$room",
+
+        // Preference
+        preference             : "androidx.preference:preference-ktx:$preference",
+
+        // Epoxy
+        epoxy                  : "com.airbnb.android:epoxy:$epoxy",
+        kaptEpoxy              : "com.airbnb.android:epoxy-processor:$epoxy",
+
+        // Glide
+        glide                  : "com.github.bumptech.glide:glide:$glide",
+        kaptGlide              : "com.github.bumptech.glide:compiler:$glide",
+
+        // ButterKnife
+        butterKnife            : "com.jakewharton:butterknife:$butter_knife",
+        kaptButterKnife        : "com.jakewharton:butterknife-compiler:$butter_knife",
+
+        // Navigation
+        navFragment            : "androidx.navigation:navigation-fragment-ktx:$navigation",
+        navUi                  : "androidx.navigation:navigation-ui-ktx:$navigation",
+        navDynamicFeature      : "androidx.navigation:navigation-dynamic-features-fragment:$navigation",
+]
