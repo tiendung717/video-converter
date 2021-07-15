@@ -100,6 +100,16 @@ class EditorViewModel @Inject constructor(
             )
         )
 
+        toolRepo.updateTool(
+            Sticker(
+                4,
+                FileUtils.getFileFromAssets(activity, "sticker.png").absolutePath,
+                100,
+                10,
+            )
+        )
+
+
         ffmpegExecutor.run(activity, inputVideoPath, output, toolRepo.getFFmpegFilters(), object : FFCallback {
             override fun onProgress(progress: String) {
                 exportResult.onNext(ExportResult.InProgress(progress))
