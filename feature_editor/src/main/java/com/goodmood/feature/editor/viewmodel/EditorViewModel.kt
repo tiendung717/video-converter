@@ -10,12 +10,9 @@ import com.goodmood.core.ffmpeg.BuildConfig
 import com.goodmood.core.ffmpeg.FFCallback
 import com.goodmood.core.ffmpeg.FFmpegExecutor
 import com.goodmood.feature.editor.repository.ToolRepo
-import com.goodmood.feature.editor.repository.model.Sticker
-import com.goodmood.feature.editor.repository.model.Text
-import com.goodmood.feature.editor.repository.model.Tool
-import com.goodmood.feature.editor.repository.model.Trim
-import com.goodmood.feature.editor.utils.toTime
+import com.goodmood.feature.editor.repository.model.*
 import com.goodmood.platform.log.AppLog
+import com.goodmood.platform.utils.FileUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.subjects.PublishSubject
 import java.io.File
@@ -69,25 +66,41 @@ class EditorViewModel @Inject constructor(
         return "$dirPath/${randomName}.mp4"
     }
 
-    private fun buildFFMpegCommand(output: String): Array<String> {
-        val cmd = mutableListOf("-i", inputVideoPath)
-        toolRepo.getTools().forEach {
-            cmd.addAll(it.getFFmpegParams())
-        }
-
-        cmd.apply {
-            add("-preset")
-            add("ultrafast")
-            add(output)
-        }
-        return cmd.toTypedArray()
-    }
-
     fun export(activity: AppCompatActivity) {
         val output = output()
-        val command = buildFFMpegCommand(output)
-        dumpFFmpegCommand(command)
-        ffmpegExecutor.run(activity, command, object : FFCallback {
+
+        toolRepo.updateTool(
+            Text(
+                1,
+                "Test",
+                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
+                28,
+                50,
+                50
+            )
+        )
+        toolRepo.updateTool(
+            Text(
+                2,
+                "Tien Dzung",
+                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
+                50,
+                80,
+                10
+            )
+        )
+        toolRepo.updateTool(
+            Text(
+                3,
+                "Hello World",
+                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
+                100,
+                10,
+                80
+            )
+        )
+
+        ffmpegExecutor.run(activity, inputVideoPath, output, toolRepo.getFFmpegFilters(), object : FFCallback {
             override fun onProgress(progress: String) {
                 exportResult.onNext(ExportResult.InProgress(progress))
             }
@@ -99,16 +112,6 @@ class EditorViewModel @Inject constructor(
             override fun onFailed() {
                 exportResult.onNext(ExportResult.Failed("Export failed!"))
             }
-
         })
     }
-
-    private fun dumpFFmpegCommand(cmd: Array<String>) {
-        if (BuildConfig.DEBUG) {
-            val stringBuilder = StringBuilder()
-            cmd.forEach { stringBuilder.append(it).append(" ") }
-            AppLog.d("Command: ${stringBuilder.toString()}")
-        }
-    }
-
 }

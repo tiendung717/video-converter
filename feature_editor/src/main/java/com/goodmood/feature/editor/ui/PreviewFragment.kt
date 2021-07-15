@@ -36,4 +36,10 @@ internal class PreviewFragment : BaseFragment() {
             prepare()
         }
     }
+
+    override fun onDestroy() {
+        binding.videoView.player?.stop()
+        binding.videoView.player?.release()
+        super.onDestroy()
+    }
 }
