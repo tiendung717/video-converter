@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_editor"
+    app:startDestination="@id/editor">
+
+    <fragment
+        android:id="@+id/editor"
+        android:name="com.goodmood.feature.editor.ui.VideoEditorFragment"
+        android:label="Editor"
+        tools:layout="@layout/fragment_video_editor">
+        <argument
+            android:name="inputVideoPath"
+            app:argType="string" />
+        <argument
+            android:name="inputVideoUri"
+            app:argType="android.net.Uri" />
+    </fragment>
+</navigation>

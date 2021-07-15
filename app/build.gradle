@@ -3,6 +3,8 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'com.jakewharton.butterknife'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -22,7 +24,7 @@ android {
     buildFeatures {
         dataBinding true
     }
-    
+
     buildTypes {
         release {
             minifyEnabled false
@@ -42,6 +44,11 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':feature_editor')
+    implementation project(':core_ui')
+    implementation project(':core_ffmpeg')
+    implementation project(':core_data')
+    implementation project(':platform')
 
     implementation rootProject.deps.coreKtx
     implementation rootProject.deps.appCompat
@@ -51,6 +58,19 @@ dependencies {
     implementation rootProject.deps.hiltLifecycleViewModel
     implementation rootProject.deps.hiltAndroid
     kapt rootProject.deps.kaptHiltAndroidCompiler
+
+    implementation rootProject.deps.rxAndroid
+    implementation rootProject.deps.rxJava
+
+    implementation rootProject.deps.navFragment
+    implementation rootProject.deps.navUi
+    implementation rootProject.deps.navDynamicFeature
+
+    implementation rootProject.deps.epoxy
+    kapt rootProject.deps.kaptEpoxy
+
+    implementation rootProject.deps.glide
+    kapt rootProject.deps.kaptGlide
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

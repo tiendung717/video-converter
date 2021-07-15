@@ -24,6 +24,20 @@ object AppLog {
         Log.v(TAG, codeLocation + msg)
     }
 
+    fun printStackTrace(throwable: Throwable) {
+        Log.e(
+            TAG,
+            "**************************************************************************************************************************************************************************************"
+        )
+        for (ste in throwable.stackTrace) {
+            Log.d(TAG, ste.toString())
+        }
+        Log.e(
+            TAG,
+            "**************************************************************************************************************************************************************************************"
+        )
+    }
+
     private val codeLocation: String
         get() {
             val cthread = Thread.currentThread()

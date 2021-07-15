@@ -24,6 +24,8 @@ rootProject.ext.glide = '4.12.0'
 rootProject.ext.navigation = '2.3.5'
 rootProject.ext.rx_android = '2.1.1'
 rootProject.ext.rx_java = '2.2.12'
+rootProject.ext.exoPlayer = '2.13.3'
+rootProject.ext.ffmpeg = '1.0.6'
 
 rootProject.ext.deps = [
         coreKtx                : "androidx.core:core-ktx:$core_ktx",
@@ -67,4 +69,10 @@ rootProject.ext.deps = [
         navFragment            : "androidx.navigation:navigation-fragment-ktx:$navigation",
         navUi                  : "androidx.navigation:navigation-ui-ktx:$navigation",
         navDynamicFeature      : "androidx.navigation:navigation-dynamic-features-fragment:$navigation",
+
+        // Exo
+        exoPlayer              : "com.google.android.exoplayer:exoplayer:$exoPlayer",
+
+        // FFMpeg
+        ffmpeg                 : "com.github.SimformSolutionsPvtLtd:SSffmpegVideoOperation:$ffmpeg"
 ]
