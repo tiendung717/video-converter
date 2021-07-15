@@ -1,10 +1,11 @@
 package com.goodmood.feature.editor.repository.filter
 
 import com.goodmood.core.ffmpeg.FFmpegFilter
+import com.goodmood.core.ffmpeg.FFmpegNormalFilter
 import com.goodmood.feature.editor.repository.model.Text
 import java.lang.StringBuilder
 
-class TextFilter(val textList: List<Text>) : FFmpegFilter() {
+class TextFilter(val textList: List<Text>) : FFmpegNormalFilter() {
     override fun getParams(): List<String> {
         val filter = StringBuilder()
         filter.apply {

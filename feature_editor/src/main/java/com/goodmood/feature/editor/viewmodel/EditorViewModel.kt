@@ -69,36 +69,36 @@ class EditorViewModel @Inject constructor(
     fun export(activity: AppCompatActivity) {
         val output = output()
 
-        toolRepo.updateTool(
-            Text(
-                1,
-                "Test",
-                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
-                28,
-                50,
-                50
-            )
-        )
-        toolRepo.updateTool(
-            Text(
-                2,
-                "Tien Dzung",
-                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
-                50,
-                80,
-                10
-            )
-        )
-        toolRepo.updateTool(
-            Text(
-                3,
-                "Hello World",
-                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
-                100,
-                10,
-                80
-            )
-        )
+//        toolRepo.updateTool(
+//            Text(
+//                1,
+//                "Test",
+//                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
+//                28,
+//                50,
+//                50
+//            )
+//        )
+//        toolRepo.updateTool(
+//            Text(
+//                2,
+//                "Tien Dzung",
+//                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
+//                50,
+//                80,
+//                10
+//            )
+//        )
+//        toolRepo.updateTool(
+//            Text(
+//                3,
+//                "Hello World",
+//                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
+//                100,
+//                10,
+//                80
+//            )
+//        )
 
         toolRepo.updateTool(
             Sticker(

@@ -10,14 +10,20 @@ import java.lang.StringBuilder
 
 class FFMpegExecutorImpl : FFmpegExecutor {
 
-    override fun run(activity: AppCompatActivity, inputPath: String, outputPath: String, filters: List<FFmpegFilter>, ffmpegCallback: FFCallback){
+    override fun run(
+        activity: AppCompatActivity,
+        inputPath: String,
+        outputPath: String,
+        filters: List<FFmpegFilter>,
+        ffmpegCallback: FFCallback
+    ) {
         val query = buildQuery(inputPath, outputPath, filters)
 
         if (BuildConfig.DEBUG) {
             dumpFFmpegCommand(query)
         }
 
-        CallBackOfQuery().callQuery(activity, query, object : FFmpegCallBack {
+        val normalCallback = object : FFmpegCallBack {
             override fun process(logMessage: LogMessage) {
                 AppLog.i(logMessage.toString())
             }
@@ -38,29 +44,81 @@ class FFMpegExecutorImpl : FFmpegExecutor {
             override fun cancel() {
                 ffmpegCallback.onCancel()
             }
-        })
-    }
-
-    private fun buildQuery(inputPath: String, outputPath: String, filters: List<FFmpegFilter>): Array<String> {
-        val cmd = mutableListOf("-i", inputPath)
-
-        filters.forEach {
-            cmd.addAll(it.getParams())
         }
 
-        cmd.apply {
+        val mergeCallback = object : FFmpegCallBack {
+            override fun process(logMessage: LogMessage) {
+                AppLog.i(logMessage.toString())
+            }
+
+            override fun statisticsProcess(statistics: Statistics) {
+                super.statisticsProcess(statistics)
+                ffmpegCallback.onProgress("${statistics.time} - ${statistics.size}")
+            }
+
+            override fun success() {
+                if (query.normalQuery.isNotEmpty()) {
+                    CallBackOfQuery().callQuery(activity, query.normalQuery, normalCallback)
+                }
+            }
+
+            override fun failed() {
+                ffmpegCallback.onFailed()
+            }
+
+            override fun cancel() {
+                ffmpegCallback.onCancel()
+            }
+        }
+
+        if (query.mergeQuery.isNotEmpty()) {
+            CallBackOfQuery().callQuery(activity, query.mergeQuery, mergeCallback)
+        } else if (query.normalQuery.isNotEmpty()) {
+            CallBackOfQuery().callQuery(activity, query.normalQuery, normalCallback)
+        }
+    }
+
+    private fun buildQuery(
+        inputPath: String,
+        outputPath: String,
+        filters: List<FFmpegFilter>
+    ): FFQuery {
+        val mergeFilters = filters.filterIsInstance<FFmpegMergeFilter>()
+        val normalFilters = filters.filterIsInstance<FFmpegNormalFilter>()
+
+        val mergeQuery = mutableListOf<String>().apply {
+            add("-i")
+            add(inputPath)
+            mergeFilters.forEach { addAll(it.getParams()) }
             add("-preset")
             add("ultrafast")
+            add("-y")
             add(outputPath)
-        }
-        return cmd.toTypedArray()
+        }.toTypedArray()
+
+        val normalQuery = mutableListOf<String>().apply {
+            add("-i")
+            add(inputPath)
+            normalFilters.forEach { addAll(it.getParams()) }
+            add("-preset")
+            add("ultrafast")
+            add("-y")
+            add(outputPath)
+        }.toTypedArray()
+
+
+        return FFQuery(mergeQuery, normalQuery)
     }
 
-    private fun dumpFFmpegCommand(cmd: Array<String>) {
+    private fun dumpFFmpegCommand(query: FFQuery) {
         if (BuildConfig.DEBUG) {
             val stringBuilder = StringBuilder()
-            cmd.forEach { stringBuilder.append(it).append(" ") }
-            AppLog.d("Command: ${stringBuilder.toString()}")
+            query.mergeQuery.forEach { stringBuilder.append(it).append(" ") }
+            AppLog.i("Merge query: ${stringBuilder.toString()}")
+
+            stringBuilder.clear()
+            query.normalQuery.forEach { stringBuilder.append(it).append(" ") }
+            AppLog.i("Normal query: ${stringBuilder.toString()}")
         }
     }
 }
