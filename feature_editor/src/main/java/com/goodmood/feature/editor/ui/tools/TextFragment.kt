@@ -7,12 +7,16 @@ import android.view.ViewGroup
 import com.goodmood.core.editor.R
 import com.goodmood.core.editor.databinding.FragmentTextBinding
 import com.goodmood.feature.editor.repository.model.Text
+import com.goodmood.feature.editor.ui.NewTextFragment
 import com.goodmood.feature.editor.ui.ToolFragment
 import com.goodmood.feature.editor.ui.adapter.EditorAdapterFactory
 import com.goodmood.feature.editor.ui.adapter.TextAdapterController
-import kotlin.random.Random
+import com.goodmood.feature.editor.ui.adapter.TextAdapterListener
+import com.goodmood.platform.log.AppLog
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
-internal class TextFragment : ToolFragment() {
+internal class TextFragment : ToolFragment(), TextAdapterListener {
 
     private lateinit var binding: FragmentTextBinding
     private lateinit var textAdapterController: TextAdapterController
@@ -35,14 +39,60 @@ internal class TextFragment : ToolFragment() {
 
         binding.btnNewText.setOnClickListener { addNewText() }
 
-        textAdapterController = EditorAdapterFactory.createTextAdapter()
+        textAdapterController = EditorAdapterFactory.createTextAdapter(this)
         binding.rvText.setController(textAdapterController)
+
+        observeNewTextAdded()
+        observeTextRemoved()
+    }
+
+    private fun observeTextRemoved() {
+        disposable.add(
+            editorViewModel.observeTextDeleted()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        texts.removeAll { text -> text.toolId == it.toolId }
+                        textAdapterController.setData(texts)
+                    },
+                    { AppLog.e("Observe text deleted failed. ${it.message}") })
+        )
+    }
+
+    private fun observeNewTextAdded() {
+        disposable.add(
+            editorViewModel.observeTextUpdated()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { addOrUpdateTextList(it) },
+                    { AppLog.e("Observe new text added failed. ${it.message}") })
+        )
+    }
+
+    private fun addOrUpdateTextList(newText: Text) {
+        val index = texts.indexOfFirst { it.toolId == newText.toolId }
+        if (index >= 0) {
+            texts.removeAt(index)
+            texts[index] = newText
+        } else {
+            texts.add(newText)
+        }
+        textAdapterController.setData(texts)
     }
 
     private fun addNewText() {
-        val newText = Text(Random.nextLong(), "Add new text", "", 0, 0, 0)
-        texts.add(newText)
-        textAdapterController.setData(texts)
-        editorViewModel.addNewTextRequest.onNext(newText)
+        val newTextFragment = NewTextFragment.newInstance()
+        newTextFragment.show(childFragmentManager, "")
+    }
+
+    override fun onTextUpdate(text: Text) {
+        val newTextFragment = NewTextFragment.newInstance(text)
+        newTextFragment.show(childFragmentManager, "")
+    }
+
+    override fun onTextRemove(text: Text) {
+        editorViewModel.removeTool(text)
     }
 }

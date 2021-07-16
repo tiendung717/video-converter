@@ -27,7 +27,8 @@ class EditorViewModel @Inject constructor(
     lateinit var inputVideoPath: String
     lateinit var inputVideoUri: Uri
     val exportResult: PublishSubject<ExportResult> = PublishSubject.create()
-    val addNewTextRequest: PublishSubject<Text> = PublishSubject.create()
+
+    fun getFontFile() = toolRepo.getFontFile()
 
     fun updateTool(tool: Tool) = toolRepo.updateTool(tool)
 

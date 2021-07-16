@@ -5,11 +5,11 @@ import android.os.HandlerThread
 
 object EditorAdapterFactory {
 
-    fun createTextAdapter(): TextAdapterController {
+    fun createTextAdapter(textListener: TextAdapterListener): TextAdapterController {
         val handlerThread = HandlerThread("textAdapter")
         handlerThread.start()
         val handler = Handler(handlerThread.looper)
-        return TextAdapterController(handler)
+        return TextAdapterController(handler, textListener)
     }
 
 }

@@ -77,3 +77,15 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
+
+project.android.buildTypes.all { buildType ->
+    buildType.javaCompileOptions.annotationProcessorOptions.arguments =
+            [
+                    validateEpoxyModelUsage      : String.valueOf(buildType.name == 'debug'),
+                    requireHashCodeInEpoxyModels : "false",
+                    requireAbstractEpoxyModels   : "true",
+                    implicitlyAddAutoModels      : "true",
+                    logEpoxyTimings              : "false",
+                    enableParallelEpoxyProcessing: "true",
+            ]
+}

@@ -1,3 +1,3 @@
 package com.goodmood.feature.editor.repository.model
 
-abstract class Tool(var toolId: Long)
+abstract class Tool(open var toolId: Long)

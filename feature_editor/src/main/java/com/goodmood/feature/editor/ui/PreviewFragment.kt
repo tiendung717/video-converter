@@ -24,6 +24,7 @@ internal class PreviewFragment : BaseFragment() {
 
     private lateinit var binding: FragmentPreviewBinding
     private val editorViewModel by activityViewModels<EditorViewModel>()
+    private val childViewMap = mutableMapOf<Long, View>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,16 +45,29 @@ internal class PreviewFragment : BaseFragment() {
             prepare()
         }
 
-        observeNewText()
+        observeTextUpdated()
+        observeTextDeleted()
     }
 
-    private fun observeNewText() {
+    private fun observeTextUpdated() {
         disposable.add(
-            editorViewModel.addNewTextRequest
+            editorViewModel.observeTextUpdated()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    { addText(it) },
+                    { addOrUpdateText(it) },
+                    { AppLog.e("Add text error. ${it.message}") }
+                )
+        )
+    }
+
+    private fun observeTextDeleted() {
+        disposable.add(
+            editorViewModel.observeTextDeleted()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { binding.container.removeView(childViewMap[it.toolId]) },
                     { AppLog.e("Add text error. ${it.message}") }
                 )
         )
@@ -65,7 +79,7 @@ internal class PreviewFragment : BaseFragment() {
         super.onDestroy()
     }
 
-    private fun addSticker(stickerDrawable: Drawable) {
+    private fun addOrUpdateSticker(stickerDrawable: Drawable) {
         val imageView = ImageView(context)
         imageView.setImageDrawable(stickerDrawable)
         val draggableView = DraggableView.Builder(imageView).build()
@@ -77,15 +91,26 @@ internal class PreviewFragment : BaseFragment() {
         binding.container.addView(draggableView.getView(), param)
     }
 
-    private fun addText(text: Text) {
-        val textView = TextView(context)
-        textView.text = text.text
-        val draggableView = DraggableView.Builder(textView).build()
-        val param = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.WRAP_CONTENT,
-            RelativeLayout.LayoutParams.WRAP_CONTENT
-        )
-        param.addRule(RelativeLayout.CENTER_IN_PARENT)
-        binding.container.addView(draggableView.getView(), param)
+    private fun addOrUpdateText(text: Text) {
+        val view = childViewMap[text.toolId]
+        if (view != null) {
+            if (view is TextView) {
+                view.text = text.text
+                view.textSize = text.fontSize.toFloat()
+            }
+        } else {
+            val newTextView = TextView(context)
+            newTextView.text = text.text
+            newTextView.textSize = text.fontSize.toFloat()
+            val draggableView = DraggableView.Builder(newTextView).build()
+            val param = RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+            )
+            param.addRule(RelativeLayout.CENTER_IN_PARENT)
+            binding.container.addView(draggableView.getView(), param)
+
+            childViewMap[text.toolId] = draggableView.getView()
+        }
     }
 }

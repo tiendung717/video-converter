@@ -1,5 +1,6 @@
 package com.goodmood.feature.editor.repository
 
+import android.content.Context
 import com.goodmood.core.ffmpeg.filter.FFmpegFilter
 import com.goodmood.feature.editor.repository.filter.StickerFilter
 import com.goodmood.feature.editor.repository.filter.TextFilter
@@ -8,14 +9,18 @@ import com.goodmood.feature.editor.repository.model.Sticker
 import com.goodmood.feature.editor.repository.model.Text
 import com.goodmood.feature.editor.repository.model.Tool
 import com.goodmood.feature.editor.repository.model.Trim
+import com.goodmood.platform.utils.FileUtils
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
-class ToolRepoImpl : ToolRepo {
+class ToolRepoImpl(private val context: Context) : ToolRepo {
 
     private val tools = mutableMapOf<Long, Tool>()
     private val toolUpdater: PublishSubject<Tool> = PublishSubject.create()
     private val toolRemover: PublishSubject<Tool> = PublishSubject.create()
+    private val fontPath: String by lazy {
+        FileUtils.getFileFromAssets(context, "louis.ttf").absolutePath
+    }
 
     override fun updateTool(tool: Tool) {
         tools[tool.toolId] = tool
@@ -31,6 +36,10 @@ class ToolRepoImpl : ToolRepo {
         return toolUpdater
     }
 
+    override fun getFontFile(): String {
+        return fontPath
+    }
+
     override fun observeToolDeleted(): Observable<Tool> {
         return toolRemover
     }
@@ -43,7 +52,7 @@ class ToolRepoImpl : ToolRepo {
         tools.clear()
     }
 
-    override fun getFFmpegFilters() : List<FFmpegFilter> {
+    override fun getFFmpegFilters(): List<FFmpegFilter> {
         val trim = tools.values.find { it is Trim }
         val texts = tools.values.filterIsInstance<Text>()
         val stickers = tools.values.filterIsInstance<Sticker>()
