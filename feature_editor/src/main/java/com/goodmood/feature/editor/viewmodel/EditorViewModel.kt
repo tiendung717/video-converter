@@ -66,48 +66,6 @@ class EditorViewModel @Inject constructor(
     fun export(activity: AppCompatActivity) {
         val output = output()
 
-        // For testing
-        toolRepo.updateTool(
-            Text(
-                1,
-                "Test",
-                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
-                28,
-                50,
-                50
-            )
-        )
-        toolRepo.updateTool(
-            Text(
-                2,
-                "Tien Dzung",
-                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
-                50,
-                80,
-                10
-            )
-        )
-        toolRepo.updateTool(
-            Text(
-                3,
-                "Hello World",
-                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
-                100,
-                10,
-                80
-            )
-        )
-
-        toolRepo.updateTool(
-            Sticker(
-                4,
-                FileUtils.getFileFromAssets(activity, "sticker.png").absolutePath,
-                100,
-                10,
-            )
-        )
-
-
         ffmpegExecutor.run(activity, inputVideoPath, output, toolRepo.getFFmpegFilters(), object : FFCallback {
             override fun onProgress(progress: String) {
                 exportResult.onNext(ExportResult.InProgress(progress))
