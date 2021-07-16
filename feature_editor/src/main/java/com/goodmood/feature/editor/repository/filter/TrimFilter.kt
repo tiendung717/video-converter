@@ -1,7 +1,6 @@
 package com.goodmood.feature.editor.repository.filter
 
-import com.goodmood.core.ffmpeg.FFmpegFilter
-import com.goodmood.core.ffmpeg.FFmpegNormalFilter
+import com.goodmood.core.ffmpeg.filter.FFmpegNormalFilter
 import com.goodmood.feature.editor.repository.model.Trim
 import com.goodmood.feature.editor.utils.toTime
 

@@ -6,17 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
 import com.goodmood.core.data.domain.VideoRepo
 import com.goodmood.core.data.domain.model.Video
-import com.goodmood.core.ffmpeg.BuildConfig
 import com.goodmood.core.ffmpeg.FFCallback
 import com.goodmood.core.ffmpeg.FFmpegExecutor
 import com.goodmood.feature.editor.repository.ToolRepo
 import com.goodmood.feature.editor.repository.model.*
-import com.goodmood.platform.log.AppLog
 import com.goodmood.platform.utils.FileUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.subjects.PublishSubject
 import java.io.File
-import java.lang.StringBuilder
 import java.util.*
 import javax.inject.Inject
 
@@ -69,36 +66,37 @@ class EditorViewModel @Inject constructor(
     fun export(activity: AppCompatActivity) {
         val output = output()
 
-//        toolRepo.updateTool(
-//            Text(
-//                1,
-//                "Test",
-//                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
-//                28,
-//                50,
-//                50
-//            )
-//        )
-//        toolRepo.updateTool(
-//            Text(
-//                2,
-//                "Tien Dzung",
-//                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
-//                50,
-//                80,
-//                10
-//            )
-//        )
-//        toolRepo.updateTool(
-//            Text(
-//                3,
-//                "Hello World",
-//                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
-//                100,
-//                10,
-//                80
-//            )
-//        )
+        // For testing
+        toolRepo.updateTool(
+            Text(
+                1,
+                "Test",
+                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
+                28,
+                50,
+                50
+            )
+        )
+        toolRepo.updateTool(
+            Text(
+                2,
+                "Tien Dzung",
+                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
+                50,
+                80,
+                10
+            )
+        )
+        toolRepo.updateTool(
+            Text(
+                3,
+                "Hello World",
+                FileUtils.getFileFromAssets(activity, "louis.ttf").absolutePath,
+                100,
+                10,
+                80
+            )
+        )
 
         toolRepo.updateTool(
             Sticker(

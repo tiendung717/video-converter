@@ -1,6 +1,6 @@
 package com.goodmood.feature.editor.repository
 
-import com.goodmood.core.ffmpeg.FFmpegFilter
+import com.goodmood.core.ffmpeg.filter.FFmpegFilter
 import com.goodmood.feature.editor.repository.filter.StickerFilter
 import com.goodmood.feature.editor.repository.filter.TextFilter
 import com.goodmood.feature.editor.repository.filter.TrimFilter
@@ -49,9 +49,17 @@ class ToolRepoImpl : ToolRepo {
         val stickers = tools.values.filterIsInstance<Sticker>()
 
         return mutableListOf<FFmpegFilter>().apply {
-            add(StickerFilter(stickers))
-            if (trim != null) add(TrimFilter(trim as Trim))
-            add(TextFilter(texts))
+            if (stickers.isNotEmpty()) {
+                add(StickerFilter(stickers))
+            }
+
+            if (trim != null) {
+                add(TrimFilter(trim as Trim))
+            }
+
+            if (texts.isNotEmpty()) {
+                add(TextFilter(texts))
+            }
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.goodmood.feature.editor.repository.filter
 
-import com.goodmood.core.ffmpeg.FFmpegFilter
-import com.goodmood.core.ffmpeg.FFmpegMergeFilter
+import com.goodmood.core.ffmpeg.filter.FFmpegMergeFilter
 import com.goodmood.feature.editor.repository.model.Sticker
 
 class StickerFilter(private val stickerList: List<Sticker>) : FFmpegMergeFilter() {

@@ -1,6 +1,6 @@
 package com.goodmood.feature.editor.repository
 
-import com.goodmood.core.ffmpeg.FFmpegFilter
+import com.goodmood.core.ffmpeg.filter.FFmpegFilter
 import com.goodmood.feature.editor.repository.model.Tool
 import io.reactivex.Observable
 

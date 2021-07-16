@@ -121,7 +121,7 @@ class VideoListFragment : BaseFragment() {
             arrayOf(videoId),
             null
         )
-        cursor?.let {
+        if (cursor != null) {
             if (cursor.count > 0) {
                 cursor.moveToFirst()
                 path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.VideoColumns.DATA))
@@ -133,12 +133,12 @@ class VideoListFragment : BaseFragment() {
     }
 
     private fun openVideo(video: Video) {
+        val videoUri = FileProvider.getUriForFile(
+            requireContext(),
+            "${requireContext().packageName}.provider",
+            File(video.path)
+        )
         Intent(Intent.ACTION_VIEW).apply {
-            val videoUri = FileProvider.getUriForFile(
-                requireContext(),
-                "${requireContext().packageName}.provider",
-                File(video.path)
-            )
             setDataAndType(videoUri, "video/*")
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             startActivity(this)
