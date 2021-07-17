@@ -24,6 +24,10 @@ class ToolRepoImpl : ToolRepo {
         toolUpdater.onNext(tool)
     }
 
+    override fun getTool(toolId: Long): Tool? {
+        return tools[toolId]
+    }
+
     override fun removeTool(tool: Tool) {
         val removedTool = tools.remove(tool.toolId)
         removedTool?.let { toolRemover.onNext(it) }

@@ -27,20 +27,12 @@ class VideoEditorFragment : BaseFragment() {
         view?.let { Snackbar.make(it, "", Snackbar.LENGTH_INDEFINITE) }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentVideoEditorBinding.inflate(inflater, container, false)
-        if (activity is AppCompatActivity) {
-            (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
-        }
 
         editorViewModel.apply {
             inputVideoPath = args.inputVideoPath
@@ -59,22 +51,6 @@ class VideoEditorFragment : BaseFragment() {
     override fun onDestroyView() {
         editorViewModel.clearEditor()
         super.onDestroyView()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_editor, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.menu_export) export()
-        return true
-    }
-
-    fun export() {
-        if (activity is AppCompatActivity) {
-            editorViewModel.export(activity as AppCompatActivity)
-        }
     }
 
     private fun observeExportResult() {

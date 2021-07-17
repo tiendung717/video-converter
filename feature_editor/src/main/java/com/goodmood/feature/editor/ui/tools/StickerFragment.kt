@@ -72,11 +72,18 @@ internal class StickerFragment : ToolFragment() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    {
-                        stickers.add(it)
-                        stickerAdapterController.setData(stickers)
-                    },
+                    { addOrUpdateSticker(it) },
                     { AppLog.e("Observe new sticker added failed. ${it.message}") })
         )
+    }
+
+    private fun addOrUpdateSticker(newSticker: Sticker) {
+        val index = stickers.indexOfFirst { it.toolId == newSticker.toolId }
+        if (index >= 0) {
+            stickers[index] = newSticker
+        } else {
+            stickers.add(newSticker)
+        }
+        stickerAdapterController.setData(stickers)
     }
 }

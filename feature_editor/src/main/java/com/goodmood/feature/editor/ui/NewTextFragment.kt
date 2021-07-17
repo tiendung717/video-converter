@@ -17,7 +17,7 @@ class NewTextFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentNewTextBinding
     private val editorViewModel: EditorViewModel by activityViewModels()
-    private var newText = Text(Random.nextLong(), "", "", 0, 0, 0)
+    private var newText = Text(Random.nextLong(), "", "", 0, 0.5f, 0.5f)
 
     companion object {
         const val KEY_TEXT = "key_text"

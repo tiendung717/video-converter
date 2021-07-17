@@ -1,15 +1,14 @@
 package com.goodmood.feature.editor.ui
 
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
+import com.goodmood.core.editor.R
 import com.goodmood.core.editor.databinding.FragmentPreviewBinding
 import com.goodmood.core.ui.base.BaseFragment
 import com.goodmood.feature.editor.repository.model.Sticker
@@ -29,6 +28,11 @@ internal class PreviewFragment : BaseFragment() {
     private val editorViewModel by activityViewModels<EditorViewModel>()
     private val childViewMap = mutableMapOf<Long, View>()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,6 +44,9 @@ internal class PreviewFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (activity is AppCompatActivity) {
+            (activity as AppCompatActivity).setSupportActionBar(binding.toolbar)
+        }
 
         binding.videoView.player = SimpleExoPlayer.Builder(requireContext()).build().apply {
             val mediaItem = MediaItem.fromUri(editorViewModel.inputVideoUri)
@@ -48,9 +55,9 @@ internal class PreviewFragment : BaseFragment() {
             prepare()
         }
 
-        // observe if any text or sticker is added to the video
+        // observe if any text or sticker is added/updated to the video
         observeTextUpdated()
-        observeStickerAdded()
+        observeStickerUpdated()
 
         // observer if text or sticker is removed
         observeToolRemoved()
@@ -60,6 +67,16 @@ internal class PreviewFragment : BaseFragment() {
         binding.videoView.player?.stop()
         binding.videoView.player?.release()
         super.onDestroy()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_editor, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_export) export()
+        return true
     }
 
     private fun observeTextUpdated() {
@@ -74,7 +91,7 @@ internal class PreviewFragment : BaseFragment() {
         )
     }
 
-    private fun observeStickerAdded() {
+    private fun observeStickerUpdated() {
         disposable.add(
             editorViewModel.observeStickerUpdated()
                 .subscribeOn(Schedulers.io())
@@ -97,17 +114,20 @@ internal class PreviewFragment : BaseFragment() {
     }
 
     private fun addSticker(sticker: Sticker) {
-        val imageView = ImageView(context)
-        imageView.setImageURI(Uri.fromFile(File(sticker.path)))
-        val draggableView = DraggableView.Builder(imageView).build()
-        val param = RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.WRAP_CONTENT,
-            RelativeLayout.LayoutParams.WRAP_CONTENT
-        )
-        param.addRule(RelativeLayout.CENTER_IN_PARENT)
-        binding.container.addView(draggableView.getView(), param)
+        val view = childViewMap[sticker.toolId]
+        if (view == null) {
+            val imageView = ImageView(context)
+            imageView.setImageURI(Uri.fromFile(File(sticker.path)))
+            val draggableView = DraggableView.Builder(imageView).build()
+            val param = RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+            )
+            param.addRule(RelativeLayout.CENTER_IN_PARENT)
+            binding.container.addView(draggableView.getView(), param)
 
-        childViewMap[sticker.toolId] = draggableView.getView()
+            childViewMap[sticker.toolId] = draggableView.getView()
+        }
     }
 
     private fun addOrUpdateText(text: Text) {
@@ -130,6 +150,38 @@ internal class PreviewFragment : BaseFragment() {
             binding.container.addView(draggableView.getView(), param)
 
             childViewMap[text.toolId] = draggableView.getView()
+        }
+    }
+
+    private fun updateToolsLocation() {
+        childViewMap.forEach {
+            val view = it.value
+            val x = view.x
+            val y = view.y
+            val videoW = binding.videoView.width
+            val videoH = binding.videoView.height
+
+            val tool = editorViewModel.getTool(it.key)
+            tool?.let {
+                when (tool) {
+                    is Text -> {
+                        tool.xPercent = x / videoW
+                        tool.yPercent = y / videoH
+                    }
+                    is Sticker -> {
+                        tool.xPercent = x / videoW
+                        tool.yPercent = y / videoH
+                    }
+                }
+                editorViewModel.updateTool(tool)
+            }
+        }
+    }
+
+    private fun export() {
+        if (activity is AppCompatActivity) {
+            updateToolsLocation()
+            editorViewModel.export(activity as AppCompatActivity)
         }
     }
 }

@@ -8,11 +8,8 @@ class Text(
     var text: String,
     var fontPath: String,
     var fontSize: Int,
-    var posX: Int,
-    var posY: Int
+    var xPercent: Float,
+    var yPercent: Float
 ) : Tool(toolId), Serializable {
 
-    override fun hashCode(): Int {
-        return text.hashCode()
-    }
 }

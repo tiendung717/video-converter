@@ -13,7 +13,7 @@ class StickerFilter(private val stickerList: List<Sticker>) : FFmpegMergeFilter(
                     "-i",
                     it.path,
                     "-filter_complex",
-                    "overlay=${it.posX}:${it.posY}"
+                    "overlay=${it.xPercent}*W:${it.yPercent}*H"
                 )
             )
         }

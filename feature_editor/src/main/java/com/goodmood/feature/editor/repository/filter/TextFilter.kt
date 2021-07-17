@@ -10,7 +10,7 @@ class TextFilter(val textList: List<Text>) : FFmpegNormalFilter() {
         filter.apply {
             append("[in]")
             textList.forEachIndexed { index, text ->
-                append("drawtext=text='${text.text}':fontfile=${text.fontPath}:fontsize=${text.fontSize}:x=${text.posX}:y=${text.posY}",)
+                append("drawtext=text='${text.text}':fontfile=${text.fontPath}:fontsize=${text.fontSize}:x=${text.xPercent}*W:y=${text.yPercent}*H",)
                 if (index < textList.size - 1) append(",")
             }
             append("[out]")

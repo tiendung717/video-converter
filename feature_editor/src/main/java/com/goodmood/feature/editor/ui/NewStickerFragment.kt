@@ -18,7 +18,7 @@ class NewStickerFragment : BottomSheetDialogFragment() {
     private val editorViewModel: EditorViewModel by activityViewModels()
     private val stickerAdapterController by lazy {
         EditorAdapterFactory.createResourceStickerAdapter {
-            val newSticker = Sticker(Random.nextLong(), it, 0, 0)
+            val newSticker = Sticker(Random.nextLong(), it, 0.5f, 0.5f)
             editorViewModel.updateTool(newSticker)
             dismiss()
         }

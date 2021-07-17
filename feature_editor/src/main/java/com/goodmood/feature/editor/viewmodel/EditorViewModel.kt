@@ -36,6 +36,8 @@ class EditorViewModel @Inject constructor(
 
     fun updateTool(tool: Tool) = toolRepo.updateTool(tool)
 
+    fun getTool(toolId: Long) = toolRepo.getTool(toolId)
+
     fun removeTool(tool: Tool) = toolRepo.removeTool(tool)
 
     fun observeTrimUpdated() =

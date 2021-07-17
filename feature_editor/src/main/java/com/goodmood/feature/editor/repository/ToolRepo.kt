@@ -13,4 +13,5 @@ interface ToolRepo {
 
     fun observeToolUpdated(): Observable<Tool>
     fun observeToolDeleted(): Observable<Tool>
+    fun getTool(toolId: Long): Tool?
 }

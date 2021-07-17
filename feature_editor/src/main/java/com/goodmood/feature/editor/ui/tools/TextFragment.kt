@@ -67,14 +67,16 @@ internal class TextFragment : ToolFragment(), TextAdapterListener {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { addOrUpdateTextList(it) },
-                    { AppLog.e("Observe new text added failed. ${it.message}") })
+                    {
+                        AppLog.e("Observe new text added failed. ${it.message}")
+                        AppLog.printStackTrace(it)
+                    })
         )
     }
 
     private fun addOrUpdateTextList(newText: Text) {
         val index = texts.indexOfFirst { it.toolId == newText.toolId }
         if (index >= 0) {
-            texts.removeAt(index)
             texts[index] = newText
         } else {
             texts.add(newText)

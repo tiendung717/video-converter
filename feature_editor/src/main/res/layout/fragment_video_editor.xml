@@ -7,16 +7,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="@color/black"
-            app:navigationIcon="@drawable/ic_back"
-            app:title="@string/title_editor"
-            app:titleTextAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:titleTextColor="@color/white" />
-
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/previewContainer"
             android:layout_width="match_parent"
