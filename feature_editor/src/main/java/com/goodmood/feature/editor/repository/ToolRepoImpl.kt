@@ -1,6 +1,5 @@
 package com.goodmood.feature.editor.repository
 
-import android.content.Context
 import com.goodmood.core.ffmpeg.filter.FFmpegFilter
 import com.goodmood.feature.editor.repository.filter.StickerFilter
 import com.goodmood.feature.editor.repository.filter.TextFilter
@@ -9,7 +8,6 @@ import com.goodmood.feature.editor.repository.model.Sticker
 import com.goodmood.feature.editor.repository.model.Text
 import com.goodmood.feature.editor.repository.model.Tool
 import com.goodmood.feature.editor.repository.model.Trim
-import com.goodmood.platform.utils.FileUtils
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 

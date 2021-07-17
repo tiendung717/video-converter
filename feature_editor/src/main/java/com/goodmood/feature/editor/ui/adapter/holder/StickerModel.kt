@@ -3,7 +3,6 @@ package com.goodmood.feature.editor.ui.adapter.holder
 import android.net.Uri
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import com.airbnb.epoxy.EpoxyAttribute
 import com.airbnb.epoxy.EpoxyHolder
 import com.airbnb.epoxy.EpoxyModelClass

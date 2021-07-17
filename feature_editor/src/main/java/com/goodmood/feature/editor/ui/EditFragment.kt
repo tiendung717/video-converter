@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.goodmood.core.editor.databinding.FragmentEditBinding
 import com.goodmood.core.ui.base.BaseFragment
-import com.goodmood.feature.editor.ui.tools.*
+import com.goodmood.feature.editor.ui.tools.ToolFragmentManager
 import com.google.android.material.tabs.TabLayoutMediator
 
 internal class EditFragment : BaseFragment() {

@@ -10,8 +10,10 @@ import com.goodmood.core.ffmpeg.FFCallback
 import com.goodmood.core.ffmpeg.FFmpegExecutor
 import com.goodmood.feature.editor.repository.ResourceManager
 import com.goodmood.feature.editor.repository.ToolRepo
-import com.goodmood.feature.editor.repository.model.*
-import com.goodmood.platform.utils.FileUtils
+import com.goodmood.feature.editor.repository.model.Sticker
+import com.goodmood.feature.editor.repository.model.Text
+import com.goodmood.feature.editor.repository.model.Tool
+import com.goodmood.feature.editor.repository.model.Trim
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.subjects.PublishSubject
 import java.io.File
@@ -31,6 +33,8 @@ class EditorViewModel @Inject constructor(
     val exportResult: PublishSubject<ExportResult> = PublishSubject.create()
 
     fun getFontFile() = resourceManager.fontFile
+
+    fun getFontColor() = resourceManager.fontColor
 
     fun getStickerFiles() = resourceManager.stickerFiles
 

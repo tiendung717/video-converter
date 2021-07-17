@@ -1,5 +1,7 @@
 package com.goodmood.feature.editor.ui
 
+import android.graphics.Color
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
@@ -11,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import com.goodmood.core.editor.R
 import com.goodmood.core.editor.databinding.FragmentPreviewBinding
 import com.goodmood.core.ui.base.BaseFragment
+import com.goodmood.feature.editor.EditorConfig
 import com.goodmood.feature.editor.repository.model.Sticker
 import com.goodmood.feature.editor.repository.model.Text
 import com.goodmood.feature.editor.viewmodel.EditorViewModel
@@ -141,6 +144,9 @@ internal class PreviewFragment : BaseFragment() {
             val newTextView = TextView(context)
             newTextView.text = text.text
             newTextView.textSize = text.fontSize.toFloat()
+            newTextView.setTextColor(Color.parseColor(editorViewModel.getFontColor()))
+            newTextView.typeface = Typeface.createFromAsset(requireContext().assets, EditorConfig.DEFAULT_FONT_NAME)
+
             val draggableView = DraggableView.Builder(newTextView).build()
             val param = RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,

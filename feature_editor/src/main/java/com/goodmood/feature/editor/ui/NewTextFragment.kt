@@ -17,7 +17,7 @@ class NewTextFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentNewTextBinding
     private val editorViewModel: EditorViewModel by activityViewModels()
-    private var newText = Text(Random.nextLong(), "", "", 0, 0.5f, 0.5f)
+    private var newText = Text(Random.nextLong(), "", "", 0, "",0.5f, 0.5f)
 
     companion object {
         const val KEY_TEXT = "key_text"
@@ -63,6 +63,7 @@ class NewTextFragment : BottomSheetDialogFragment() {
 
         // Set font for new text, we have only one font for this version.
         newText.fontPath = editorViewModel.getFontFile()
+        newText.fontColor = editorViewModel.getFontColor()
 
         arguments?.let {
             if (it.containsKey(KEY_TEXT)) {

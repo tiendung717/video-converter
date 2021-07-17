@@ -2,7 +2,6 @@ package com.goodmood.feature.editor.ui.adapter.holder
 
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.widget.AppCompatImageView
 import com.airbnb.epoxy.*
 import com.goodmood.core.editor.R
 import com.goodmood.core.editor.R2

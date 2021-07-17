@@ -1,6 +1,5 @@
 package com.goodmood.feature.editor.ui.adapter
 
-import android.os.Handler
 import com.airbnb.epoxy.TypedEpoxyController
 import com.goodmood.feature.editor.repository.model.Sticker
 import com.goodmood.feature.editor.ui.adapter.holder.sticker
