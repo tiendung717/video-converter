@@ -1,6 +1,7 @@
 package com.goodmood.feature.editor.di
 
 import android.content.Context
+import com.goodmood.feature.editor.repository.ResourceManager
 import com.goodmood.feature.editor.repository.ToolRepo
 import com.goodmood.feature.editor.repository.ToolRepoImpl
 import dagger.Module
@@ -16,5 +17,9 @@ class EditorModule {
 
     @Provides
     @Singleton
-    fun provideToolRepo(@ApplicationContext context: Context): ToolRepo = ToolRepoImpl(context)
+    fun provideToolRepo(): ToolRepo = ToolRepoImpl()
+
+    @Provides
+    @Singleton
+    fun provideResourceManager(@ApplicationContext context: Context): ResourceManager = ResourceManager(context)
 }

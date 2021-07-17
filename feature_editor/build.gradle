@@ -67,6 +67,8 @@ dependencies {
     kapt rootProject.deps.kaptEpoxy
 
     implementation rootProject.deps.exoPlayer
+    implementation rootProject.deps.glide
+    kapt rootProject.deps.kaptGlide
 
     implementation ('com.github.hyuwah:DraggableView:1.0.0') {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-parcelize-runtime'

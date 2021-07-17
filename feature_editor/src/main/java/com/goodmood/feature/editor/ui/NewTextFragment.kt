@@ -50,10 +50,15 @@ class NewTextFragment : BottomSheetDialogFragment() {
         binding.btnCancel.setOnClickListener { dismiss() }
 
         binding.sliderTextSize.value = 24f
-        binding.tvTextSize.text =
-            "${getString(R.string.newtext_size)} (${binding.sliderTextSize.value.toInt()}px)"
+        binding.tvTextSize.text = String.format(
+            "%s (%dpx)",
+            getString(R.string.newtext_size),
+            binding.sliderTextSize.value.toInt()
+        )
+
         binding.sliderTextSize.addOnChangeListener { _, value, _ ->
-            binding.tvTextSize.text = "${getString(R.string.newtext_size)} (${value.toInt()}px)"
+            binding.tvTextSize.text =
+                String.format("%s (%dpx)", getString(R.string.newtext_size), value.toInt())
         }
 
         // Set font for new text, we have only one font for this version.

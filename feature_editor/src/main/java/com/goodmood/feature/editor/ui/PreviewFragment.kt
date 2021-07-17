@@ -1,6 +1,7 @@
 package com.goodmood.feature.editor.ui
 
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import com.goodmood.core.editor.databinding.FragmentPreviewBinding
 import com.goodmood.core.ui.base.BaseFragment
+import com.goodmood.feature.editor.repository.model.Sticker
 import com.goodmood.feature.editor.repository.model.Text
 import com.goodmood.feature.editor.viewmodel.EditorViewModel
 import com.goodmood.platform.log.AppLog
@@ -19,6 +21,7 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import io.github.hyuwah.draggableviewlib.DraggableView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.io.File
 
 internal class PreviewFragment : BaseFragment() {
 
@@ -45,8 +48,18 @@ internal class PreviewFragment : BaseFragment() {
             prepare()
         }
 
+        // observe if any text or sticker is added to the video
         observeTextUpdated()
-        observeTextDeleted()
+        observeStickerAdded()
+
+        // observer if text or sticker is removed
+        observeToolRemoved()
+    }
+
+    override fun onDestroy() {
+        binding.videoView.player?.stop()
+        binding.videoView.player?.release()
+        super.onDestroy()
     }
 
     private fun observeTextUpdated() {
@@ -61,27 +74,31 @@ internal class PreviewFragment : BaseFragment() {
         )
     }
 
-    private fun observeTextDeleted() {
+    private fun observeStickerAdded() {
         disposable.add(
-            editorViewModel.observeTextDeleted()
+            editorViewModel.observeStickerUpdated()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { addSticker(it) },
+                    { AppLog.e("Observe new sticker added failed. ${it.message}") })
+        )
+    }
+
+    private fun observeToolRemoved() {
+        disposable.add(
+            editorViewModel.observeToolDeleted()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { binding.container.removeView(childViewMap[it.toolId]) },
-                    { AppLog.e("Add text error. ${it.message}") }
-                )
+                    { AppLog.e("Observe sticker deleted failed. ${it.message}") })
         )
     }
 
-    override fun onDestroy() {
-        binding.videoView.player?.stop()
-        binding.videoView.player?.release()
-        super.onDestroy()
-    }
-
-    private fun addOrUpdateSticker(stickerDrawable: Drawable) {
+    private fun addSticker(sticker: Sticker) {
         val imageView = ImageView(context)
-        imageView.setImageDrawable(stickerDrawable)
+        imageView.setImageURI(Uri.fromFile(File(sticker.path)))
         val draggableView = DraggableView.Builder(imageView).build()
         val param = RelativeLayout.LayoutParams(
             RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -89,6 +106,8 @@ internal class PreviewFragment : BaseFragment() {
         )
         param.addRule(RelativeLayout.CENTER_IN_PARENT)
         binding.container.addView(draggableView.getView(), param)
+
+        childViewMap[sticker.toolId] = draggableView.getView()
     }
 
     private fun addOrUpdateText(text: Text) {

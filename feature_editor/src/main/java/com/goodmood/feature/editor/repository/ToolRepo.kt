@@ -5,7 +5,6 @@ import com.goodmood.feature.editor.repository.model.Tool
 import io.reactivex.Observable
 
 interface ToolRepo {
-    fun getFontFile(): String
     fun clearTools()
     fun updateTool(tool: Tool)
     fun removeTool(tool: Tool)

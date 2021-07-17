@@ -24,6 +24,5 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="8dp"
         android:layout_toEndOf="@id/tvText"
-        android:tint="#FF9800"
         app:srcCompat="@drawable/ic_delete" />
 </RelativeLayout>

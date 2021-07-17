@@ -13,14 +13,11 @@ import com.goodmood.platform.utils.FileUtils
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 
-class ToolRepoImpl(private val context: Context) : ToolRepo {
+class ToolRepoImpl : ToolRepo {
 
     private val tools = mutableMapOf<Long, Tool>()
     private val toolUpdater: PublishSubject<Tool> = PublishSubject.create()
     private val toolRemover: PublishSubject<Tool> = PublishSubject.create()
-    private val fontPath: String by lazy {
-        FileUtils.getFileFromAssets(context, "louis.ttf").absolutePath
-    }
 
     override fun updateTool(tool: Tool) {
         tools[tool.toolId] = tool
@@ -34,10 +31,6 @@ class ToolRepoImpl(private val context: Context) : ToolRepo {
 
     override fun observeToolUpdated(): Observable<Tool> {
         return toolUpdater
-    }
-
-    override fun getFontFile(): String {
-        return fontPath
     }
 
     override fun observeToolDeleted(): Observable<Tool> {

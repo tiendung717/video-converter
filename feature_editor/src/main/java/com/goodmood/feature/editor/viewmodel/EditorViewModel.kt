@@ -8,6 +8,7 @@ import com.goodmood.core.data.domain.VideoRepo
 import com.goodmood.core.data.domain.model.Video
 import com.goodmood.core.ffmpeg.FFCallback
 import com.goodmood.core.ffmpeg.FFmpegExecutor
+import com.goodmood.feature.editor.repository.ResourceManager
 import com.goodmood.feature.editor.repository.ToolRepo
 import com.goodmood.feature.editor.repository.model.*
 import com.goodmood.platform.utils.FileUtils
@@ -21,6 +22,7 @@ import javax.inject.Inject
 class EditorViewModel @Inject constructor(
     private val toolRepo: ToolRepo,
     private val videoRepo: VideoRepo,
+    private val resourceManager: ResourceManager,
     private val ffmpegExecutor: FFmpegExecutor
 ) : ViewModel() {
 
@@ -28,7 +30,9 @@ class EditorViewModel @Inject constructor(
     lateinit var inputVideoUri: Uri
     val exportResult: PublishSubject<ExportResult> = PublishSubject.create()
 
-    fun getFontFile() = toolRepo.getFontFile()
+    fun getFontFile() = resourceManager.fontFile
+
+    fun getStickerFiles() = resourceManager.stickerFiles
 
     fun updateTool(tool: Tool) = toolRepo.updateTool(tool)
 
@@ -48,6 +52,9 @@ class EditorViewModel @Inject constructor(
 
     fun observeStickerDeleted() =
         toolRepo.observeToolDeleted().filter { it is Sticker }.map { it as Sticker }
+
+    fun observeToolDeleted() =
+        toolRepo.observeToolDeleted()
 
     fun saveExportedVideo(path: String) =
         videoRepo.saveVideo(Video(path))
