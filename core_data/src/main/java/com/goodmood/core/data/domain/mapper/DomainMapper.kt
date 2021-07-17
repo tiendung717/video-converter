@@ -10,7 +10,7 @@ interface DomainMapper<T, DomainModel> {
 
 object VideoMapper : DomainMapper<VideoEntity, Video> {
     override fun toDataModel(domainModel: Video): VideoEntity {
-        return VideoEntity(path = domainModel.path)
+        return VideoEntity(path = domainModel.path, timestamp = System.currentTimeMillis())
     }
 
     override fun toDomainModel(data: VideoEntity): Video {

@@ -8,6 +8,6 @@ import java.util.*
 data class VideoEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = Random().nextLong(),
-
+    val timestamp: Long,
     val path: String
 )

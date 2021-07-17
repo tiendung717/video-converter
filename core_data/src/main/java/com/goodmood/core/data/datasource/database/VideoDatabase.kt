@@ -18,7 +18,7 @@ import com.goodmood.core.data.datasource.entities.VideoEntity
 abstract class VideoDatabase : RoomDatabase() {
 
     companion object {
-        private const val DB_NAME = "goodmood-editor"
+        private const val DB_NAME = "goodmood-db"
 
         fun getDatabase(context: Context): VideoDatabase {
             val builder = Room.databaseBuilder(context, VideoDatabase::class.java, DB_NAME)

@@ -8,7 +8,7 @@ import io.reactivex.Observable
 @Dao
 abstract class DaoVideo {
 
-    @Query("select * from VideoEntity")
+    @Query("select * from VideoEntity order by timestamp desc")
     abstract fun get(): Observable<List<VideoEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
