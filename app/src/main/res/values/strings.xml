@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
-    <string name="app_name">Video Editor</string>
+    <string name="app_name">GoodMood Editor</string>
 
     <string name="btn_create_video">New video</string>
     <string name="message_video_empty">You have no videos</string>

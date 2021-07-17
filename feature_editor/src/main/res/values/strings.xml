@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title_editor">GoodMood</string>
+    <string name="title_editor">Editor</string>
     <string name="edit_trim">Trim</string>
     <string name="edit_text">Text</string>
     <string name="edit_sticker">Sticker</string>

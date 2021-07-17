@@ -14,7 +14,7 @@
             android:background="@color/black"
             app:navigationIcon="@drawable/ic_back"
             app:title="@string/title_editor"
-            app:titleTextAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:titleTextAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:titleTextColor="@color/white" />
 
         <RelativeLayout
