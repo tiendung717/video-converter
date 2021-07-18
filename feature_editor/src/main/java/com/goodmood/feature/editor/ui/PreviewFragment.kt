@@ -1,6 +1,5 @@
 package com.goodmood.feature.editor.ui
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.net.Uri
@@ -10,10 +9,8 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.goodmood.core.editor.R
 import com.goodmood.core.editor.databinding.FragmentPreviewBinding
 import com.goodmood.core.ui.base.BaseFragment
@@ -21,11 +18,9 @@ import com.goodmood.feature.editor.EditorConfig
 import com.goodmood.feature.editor.repository.model.Sticker
 import com.goodmood.feature.editor.repository.model.Text
 import com.goodmood.feature.editor.viewmodel.EditorViewModel
-import com.goodmood.feature.editor.viewmodel.ExportResult
 import com.goodmood.platform.log.AppLog
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.material.snackbar.Snackbar
 import io.github.hyuwah.draggableviewlib.DraggableView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
