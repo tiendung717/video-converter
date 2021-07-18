@@ -94,4 +94,6 @@ class EditorViewModel @Inject constructor(
             }
         })
     }
+
+    fun cancelExport() = ffmpegExecutor.cancel()
 }

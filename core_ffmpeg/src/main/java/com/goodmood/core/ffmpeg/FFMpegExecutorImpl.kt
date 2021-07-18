@@ -5,6 +5,7 @@ import com.goodmood.core.ffmpeg.filter.FFmpegFilter
 import com.goodmood.core.ffmpeg.filter.FFmpegMergeFilter
 import com.goodmood.core.ffmpeg.filter.FFmpegNormalFilter
 import com.goodmood.platform.log.AppLog
+import com.simform.videooperations.CallBackOfQuery
 import java.lang.StringBuilder
 import java.util.*
 
@@ -34,5 +35,9 @@ class FFMpegExecutorImpl : FFmpegExecutor {
 
         val query = FFQuery(activity, inputPath, outputPath, cmdLinkedList, ffCallback)
         query.run()
+    }
+
+    override fun cancel() {
+        CallBackOfQuery().cancelProcess()
     }
 }

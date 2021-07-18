@@ -1,10 +1,12 @@
 package com.goodmood.feature.editor.ui
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -29,6 +31,15 @@ class VideoEditorFragment : BaseFragment() {
     private val editorViewModel by activityViewModels<EditorViewModel>()
     private val exportSnackBar: Snackbar? by lazy {
         view?.let { Snackbar.make(it, "", Snackbar.LENGTH_INDEFINITE) }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            editorViewModel.cancelExport()
+            exportSnackBar?.dismiss()
+            findNavController().popBackStack()
+        }
     }
 
     override fun onCreateView(
