@@ -10,22 +10,7 @@
         android:name="com.goodmood.videoeditor.fragments.VideoListFragment"
         android:label="Video List"
         tools:layout="@layout/fragment_video_list">
-
-        <action
-            android:id="@+id/flow_to_editor"
-            app:destination="@id/editor" />
     </fragment>
 
-    <fragment
-        android:id="@+id/editor"
-        android:name="com.goodmood.feature.editor.ui.VideoEditorFragment"
-        android:label="Editor"
-        tools:layout="@layout/fragment_video_editor">
-        <argument
-            android:name="inputVideoPath"
-            app:argType="string" />
-        <argument
-            android:name="inputVideoUri"
-            app:argType="android.net.Uri" />
-    </fragment>
+    <include app:graph="@navigation/nav_editor" />
 </navigation>

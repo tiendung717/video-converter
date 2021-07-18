@@ -52,7 +52,8 @@ internal class PreviewFragment : BaseFragment() {
         }
 
         binding.videoView.player = SimpleExoPlayer.Builder(requireContext()).build().apply {
-            val mediaItem = MediaItem.fromUri(editorViewModel.inputVideoUri)
+            val mediaUri = Uri.fromFile(File(editorViewModel.inputVideoPath))
+            val mediaItem = MediaItem.fromUri(mediaUri)
             setMediaItem(mediaItem)
             playWhenReady = true
             prepare()

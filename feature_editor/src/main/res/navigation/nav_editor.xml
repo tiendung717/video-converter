@@ -10,11 +10,10 @@
         android:name="com.goodmood.feature.editor.ui.VideoEditorFragment"
         android:label="Editor"
         tools:layout="@layout/fragment_video_editor">
+        <deepLink app:uri="nav://editor/?videoPath={videoPath}" />
+
         <argument
-            android:name="inputVideoPath"
+            android:name="videoPath"
             app:argType="string" />
-        <argument
-            android:name="inputVideoUri"
-            app:argType="android.net.Uri" />
     </fragment>
 </navigation>

@@ -29,7 +29,6 @@ class EditorViewModel @Inject constructor(
 ) : ViewModel() {
 
     lateinit var inputVideoPath: String
-    lateinit var inputVideoUri: Uri
     val exportResult: PublishSubject<ExportResult> = PublishSubject.create()
 
     fun getFontFile() = resourceManager.fontFile

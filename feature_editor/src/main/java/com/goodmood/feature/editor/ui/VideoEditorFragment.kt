@@ -1,9 +1,11 @@
 package com.goodmood.feature.editor.ui
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -17,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import java.io.File
 
 @AndroidEntryPoint
 class VideoEditorFragment : BaseFragment() {
@@ -34,19 +37,18 @@ class VideoEditorFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentVideoEditorBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        editorViewModel.apply {
-            inputVideoPath = args.inputVideoPath
-            inputVideoUri = args.inputVideoUri
-        }
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        editorViewModel.inputVideoPath = args.videoPath
         childFragmentManager.apply {
             beginTransaction().replace(R.id.previewContainer, PreviewFragment()).commit()
             beginTransaction().replace(R.id.editContainer, EditFragment()).commit()
         }
 
         observeExportResult()
-        return binding.root
     }
 
     override fun onDestroyView() {

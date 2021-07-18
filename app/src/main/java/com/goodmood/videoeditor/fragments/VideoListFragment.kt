@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavDeepLinkRequest
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -50,8 +51,10 @@ class VideoListFragment : BaseFragment() {
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             val path = getVideoPath(uri)
             if (path != null) {
-                val editorAction = VideoListFragmentDirections.flowToEditor(path, uri)
-                findNavController().navigate(editorAction)
+                val editorDeepLink = NavDeepLinkRequest.Builder
+                    .fromUri(Uri.parse("nav://editor/?videoPath=$path"))
+                    .build()
+                findNavController().navigate(editorDeepLink)
             }
         }
 
