@@ -74,6 +74,7 @@ class VideoEditorFragment : BaseFragment() {
             if (!snackBar.isShown) snackBar.show()
             when (result) {
                 is ExportResult.Success -> {
+                    // Save edited video to local database for display in video list fragment
                     disposable.add(
                         editorViewModel.saveExportedVideo(result.output)
                             .subscribeOn(Schedulers.io())

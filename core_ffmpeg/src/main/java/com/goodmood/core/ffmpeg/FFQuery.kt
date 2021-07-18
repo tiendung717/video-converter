@@ -3,6 +3,8 @@ package com.goodmood.core.ffmpeg
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import com.goodmood.platform.log.AppLog
+import com.goodmood.platform.utils.toPrettySize
+import com.goodmood.platform.utils.toTime
 import com.simform.videooperations.CallBackOfQuery
 import com.simform.videooperations.FFmpegCallBack
 import com.simform.videooperations.LogMessage
@@ -61,7 +63,9 @@ data class FFQuery(
         }
 
         override fun statisticsProcess(statistics: Statistics) {
-            ffCallback.onProgress(statistics.toString())
+            val time = statistics.time.toLong().toTime()
+            val size = statistics.size.toPrettySize()
+            ffCallback.onProgress("$time - $size")
         }
     }
 

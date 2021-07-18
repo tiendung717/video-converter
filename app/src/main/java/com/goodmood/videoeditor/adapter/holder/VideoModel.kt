@@ -8,7 +8,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import com.airbnb.epoxy.*
 import com.bumptech.glide.Glide
 import com.goodmood.core.data.domain.model.Video
-import com.goodmood.feature.editor.utils.toTime
+import com.goodmood.platform.utils.toTime
 import com.goodmood.videoeditor.R
 import java.io.File
 

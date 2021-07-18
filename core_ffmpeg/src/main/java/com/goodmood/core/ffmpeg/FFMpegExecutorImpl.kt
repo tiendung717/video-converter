@@ -33,18 +33,6 @@ class FFMpegExecutorImpl : FFmpegExecutor {
         if (normalQuery.isNotEmpty()) cmdLinkedList.add(normalQuery)
 
         val query = FFQuery(activity, inputPath, outputPath, cmdLinkedList, ffCallback)
-        if (BuildConfig.DEBUG) {
-            dumpFFmpegCommand(query)
-        }
-
         query.run()
-    }
-
-    private fun dumpFFmpegCommand(query: FFQuery) {
-        if (BuildConfig.DEBUG) {
-            val stringBuilder = StringBuilder()
-            query.params.forEach { stringBuilder.append(it).append(" ") }
-            AppLog.i("ffmpeg command: $stringBuilder")
-        }
     }
 }
