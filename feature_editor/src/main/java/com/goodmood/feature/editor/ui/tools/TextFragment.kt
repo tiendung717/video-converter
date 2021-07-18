@@ -8,7 +8,6 @@ import com.goodmood.core.editor.R
 import com.goodmood.core.editor.databinding.FragmentTextBinding
 import com.goodmood.feature.editor.repository.model.Text
 import com.goodmood.feature.editor.ui.NewTextFragment
-import com.goodmood.feature.editor.ui.ToolFragment
 import com.goodmood.feature.editor.ui.adapter.EditorAdapterFactory
 import com.goodmood.feature.editor.ui.adapter.TextAdapterController
 import com.goodmood.feature.editor.ui.adapter.TextAdapterListener
@@ -78,10 +77,11 @@ internal class TextFragment : ToolFragment(), TextAdapterListener {
         val index = texts.indexOfFirst { it.toolId == newText.toolId }
         if (index >= 0) {
             texts[index] = newText
+            textAdapterController.notifyModelChanged(index)
         } else {
             texts.add(newText)
+            textAdapterController.setData(texts)
         }
-        textAdapterController.setData(texts)
     }
 
     private fun addNewText() {

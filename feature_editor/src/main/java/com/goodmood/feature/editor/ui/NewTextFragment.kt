@@ -13,7 +13,7 @@ import com.goodmood.feature.editor.viewmodel.EditorViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlin.random.Random
 
-class NewTextFragment : BottomSheetDialogFragment() {
+internal class NewTextFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentNewTextBinding
     private val editorViewModel: EditorViewModel by activityViewModels()

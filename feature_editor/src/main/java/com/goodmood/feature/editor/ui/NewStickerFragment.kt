@@ -12,7 +12,7 @@ import com.goodmood.feature.editor.viewmodel.EditorViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlin.random.Random
 
-class NewStickerFragment : BottomSheetDialogFragment() {
+internal class NewStickerFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentNewStickerBinding
     private val editorViewModel: EditorViewModel by activityViewModels()

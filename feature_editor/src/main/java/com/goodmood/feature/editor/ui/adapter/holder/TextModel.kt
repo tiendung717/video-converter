@@ -6,6 +6,7 @@ import com.airbnb.epoxy.*
 import com.goodmood.core.editor.R
 import com.goodmood.core.editor.R2
 import com.goodmood.feature.editor.repository.model.Text
+import com.goodmood.platform.log.AppLog
 
 @EpoxyModelClass(layout = R2.layout.holder_text)
 abstract class TextModel : EpoxyModelWithHolder<TextModel.Holder>() {
@@ -27,6 +28,7 @@ abstract class TextModel : EpoxyModelWithHolder<TextModel.Holder>() {
     }
 
     override fun bind(holder: Holder, previouslyBoundModel: EpoxyModel<*>) {
+        AppLog.d(">>> Bind with previously model")
         if (previouslyBoundModel is TextModel) {
             if (previouslyBoundModel.text.text != text.text) {
                 holder.tvText.text = text.text

@@ -67,9 +67,11 @@ dependencies {
     kapt rootProject.deps.kaptEpoxy
 
     implementation rootProject.deps.exoPlayer
+
     implementation rootProject.deps.glide
     kapt rootProject.deps.kaptGlide
 
+    // Third-party library for draggable custom view which used to add text or sticker
     implementation ('com.github.hyuwah:DraggableView:1.0.0') {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-parcelize-runtime'
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-android-extensions-runtime'

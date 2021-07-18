@@ -1,4 +1,4 @@
-package com.goodmood.feature.editor.ui
+package com.goodmood.feature.editor.ui.tools
 
 import androidx.fragment.app.activityViewModels
 import com.goodmood.core.ui.base.BaseFragment

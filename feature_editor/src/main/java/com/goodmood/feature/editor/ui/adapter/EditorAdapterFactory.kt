@@ -23,7 +23,7 @@ object EditorAdapterFactory {
         val handlerThread = HandlerThread("stickerAdapter")
         handlerThread.start()
         val handler = Handler(handlerThread.looper)
-        return StickerAdapterController(onStickerRemoved)
+        return StickerAdapterController(handler, onStickerRemoved)
     }
 
 }

@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import com.goodmood.core.editor.R
 import com.goodmood.core.editor.databinding.FragmentTrimBinding
 import com.goodmood.feature.editor.repository.model.Trim
-import com.goodmood.feature.editor.ui.ToolFragment
 import com.goodmood.feature.editor.utils.toTime
 
 internal class TrimFragment : ToolFragment() {

@@ -11,6 +11,4 @@ class Text(
     var fontColor: String,
     var xPercent: Float,
     var yPercent: Float
-) : Tool(toolId), Serializable {
-
-}
+) : Tool(toolId), Serializable

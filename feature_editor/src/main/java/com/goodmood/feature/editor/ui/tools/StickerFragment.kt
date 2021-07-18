@@ -8,7 +8,6 @@ import com.goodmood.core.editor.R
 import com.goodmood.core.editor.databinding.FragmentStickerBinding
 import com.goodmood.feature.editor.repository.model.Sticker
 import com.goodmood.feature.editor.ui.NewStickerFragment
-import com.goodmood.feature.editor.ui.ToolFragment
 import com.goodmood.feature.editor.ui.adapter.EditorAdapterFactory
 import com.goodmood.feature.editor.ui.adapter.StickerAdapterController
 import com.goodmood.platform.log.AppLog
@@ -81,9 +80,10 @@ internal class StickerFragment : ToolFragment() {
         val index = stickers.indexOfFirst { it.toolId == newSticker.toolId }
         if (index >= 0) {
             stickers[index] = newSticker
+            stickerAdapterController.notifyModelChanged(index)
         } else {
             stickers.add(newSticker)
+            stickerAdapterController.setData(stickers)
         }
-        stickerAdapterController.setData(stickers)
     }
 }

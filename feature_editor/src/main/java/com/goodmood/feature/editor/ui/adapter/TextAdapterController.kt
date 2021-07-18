@@ -16,10 +16,10 @@ class TextAdapterController(handler: Handler, private val textListener: TextAdap
             text {
                 id(it.toolId)
                 text(it)
-                onTextRemoveListener { model, parentView, clickedView, position ->
+                onTextRemoveListener { _, _, _, _ ->
                     textListener.onTextRemove(it)
                 }
-                onTextUpdateListener { model, parentView, clickedView, position ->
+                onTextUpdateListener { _, _, _, _ ->
                     textListener.onTextUpdate(it)
                 }
             }
