@@ -3,12 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/videoList">
+    app:startDestination="@id/mediaOutput">
 
     <fragment
-        android:id="@+id/videoList"
+        android:id="@+id/mediaOutput"
         android:name="com.alticode.videoeditor.fragments.MediaOutputFragment"
         android:label="Video List"
-        tools:layout="@layout/fragment_video_list">
+        tools:layout="@layout/fragment_media_output">
     </fragment>
+
+    <include app:graph="@navigation/nav_video_cutter" />
 </navigation>

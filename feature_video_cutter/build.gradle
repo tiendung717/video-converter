@@ -3,18 +3,24 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdk rootProject.compile_sdk
+    buildToolsVersion rootProject.buildTools
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 30
+        minSdkVersion rootProject.min_sdk
+        targetSdkVersion rootProject.target_sdk
+        versionCode rootProject.version_code
+        versionName rootProject.version_name
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildFeatures {
+        dataBinding true
     }
 
     buildTypes {
@@ -23,10 +29,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = rootProject.java_source_version
+        targetCompatibility = rootProject.java_target_version
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
@@ -59,4 +67,6 @@ dependencies {
 
     implementation rootProject.deps.glide
     kapt rootProject.deps.kaptGlide
+
+    implementation rootProject.deps.exoPlayer
 }

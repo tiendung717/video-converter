@@ -6,9 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.DocumentsContract
 import android.provider.MediaStore
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
@@ -22,9 +20,10 @@ import com.alticode.core.data.domain.model.Media
 import com.alticode.core.data.presentation.viewmodel.VideoViewModel
 import com.alticode.core.ui.base.BaseFragment
 import com.alticode.platform.utils.hasGranted
+import com.alticode.videoeditor.R
 import com.alticode.videoeditor.adapter.AdapterFactory
 import com.alticode.videoeditor.adapter.VideoAdapterController
-import com.alticode.videoeditor.databinding.FragmentVideoListBinding
+import com.alticode.videoeditor.databinding.FragmentMediaOutputBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -32,9 +31,8 @@ import java.io.File
 
 
 @AndroidEntryPoint
-class MediaOutputFragment : BaseFragment() {
+class MediaOutputFragment : BaseFragment<FragmentMediaOutputBinding>(R.layout.fragment_media_output) {
 
-    private lateinit var binding: FragmentVideoListBinding
     private lateinit var videoAdapter: VideoAdapterController
     private val videoViewModel: VideoViewModel by activityViewModels()
 
@@ -52,20 +50,11 @@ class MediaOutputFragment : BaseFragment() {
             val path = getVideoPath(uri)
             if (path != null) {
                 val editorDeepLink = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("nav://editor/?videoPath=$path"))
+                    .fromUri(Uri.parse("nav://video.cutter/?path=$path"))
                     .build()
                 findNavController().navigate(editorDeepLink)
             }
         }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentVideoListBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
