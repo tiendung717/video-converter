@@ -1,0 +1,62 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 30
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':core_ui')
+    implementation project(':core_ffmpeg')
+    implementation project(':platform')
+
+    implementation rootProject.deps.coreKtx
+    implementation rootProject.deps.appCompat
+    implementation rootProject.deps.material
+    implementation rootProject.deps.lifeCycleViewModel
+
+    implementation rootProject.deps.hiltLifecycleViewModel
+    implementation rootProject.deps.hiltAndroid
+    kapt rootProject.deps.kaptHiltAndroidCompiler
+
+    implementation rootProject.deps.rxAndroid
+    implementation rootProject.deps.rxJava
+
+    implementation rootProject.deps.navFragment
+    implementation rootProject.deps.navUi
+    implementation rootProject.deps.navDynamicFeature
+
+    implementation rootProject.deps.epoxy
+    kapt rootProject.deps.kaptEpoxy
+
+    implementation rootProject.deps.glide
+    kapt rootProject.deps.kaptGlide
+}

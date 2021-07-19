@@ -7,10 +7,8 @@
 
     <fragment
         android:id="@+id/videoList"
-        android:name="com.goodmood.videoeditor.fragments.VideoListFragment"
+        android:name="com.alticode.videoeditor.fragments.MediaOutputFragment"
         android:label="Video List"
         tools:layout="@layout/fragment_video_list">
     </fragment>
-
-    <include app:graph="@navigation/nav_editor" />
 </navigation>
