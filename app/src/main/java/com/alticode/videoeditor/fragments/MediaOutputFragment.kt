@@ -68,6 +68,8 @@ class MediaOutputFragment : BaseFragment<FragmentMediaOutputBinding>(R.layout.fr
                 updateVideoList(it)
             }
         }
+
+        videoViewModel.loadAllOutputMedia()
     }
 
     private fun updateVideoList(mediaList: List<Media>) {

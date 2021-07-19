@@ -14,9 +14,9 @@ class VideoViewModel @Inject constructor(private val mediaRepo: MediaRepo) : Vie
 
     var videoFlow = MutableStateFlow<List<Media>>(emptyList())
 
-    fun getAllVideos() {
+    fun loadAllOutputMedia() {
         viewModelScope.launch {
-            videoFlow.value = mediaRepo.getAllVideos()
+            videoFlow.value = mediaRepo.getAllOutput()
         }
     }
 

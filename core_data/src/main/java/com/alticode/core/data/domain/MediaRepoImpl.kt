@@ -7,7 +7,7 @@ import java.io.File
 
 class MediaRepoImpl(private val database: VideoDatabase) : MediaRepo {
 
-    override suspend fun getAllVideos(): List<Media> {
+    override suspend fun getAllOutput(): List<Media> {
         return database.daoVideo().get()
                 .map { VideoMapper.toDomainModel(it) }
                 .filter { File(it.path).exists() }
