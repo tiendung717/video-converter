@@ -35,7 +35,6 @@ android {
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':core_ui')
     implementation project(':platform')
 
     implementation rootProject.deps.coreKtx

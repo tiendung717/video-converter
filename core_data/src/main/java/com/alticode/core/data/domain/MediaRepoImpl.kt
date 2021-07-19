@@ -5,7 +5,7 @@ import com.alticode.core.data.domain.mapper.VideoMapper
 import com.alticode.core.data.domain.model.Media
 import java.io.File
 
-class VideoRepoImpl(private val database: VideoDatabase) : VideoRepo {
+class MediaRepoImpl(private val database: VideoDatabase) : MediaRepo {
 
     override suspend fun getAllVideos(): List<Media> {
         return database.daoVideo().get()
@@ -13,7 +13,7 @@ class VideoRepoImpl(private val database: VideoDatabase) : VideoRepo {
                 .filter { File(it.path).exists() }
     }
 
-    override suspend fun saveVideo(media: Media) {
+    override suspend fun saveOutput(media: Media) {
         val videoEntity = VideoMapper.toDataModel(media)
         return database.daoVideo().insert(videoEntity)
     }

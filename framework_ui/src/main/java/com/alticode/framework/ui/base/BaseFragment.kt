@@ -1,4 +1,4 @@
-package com.alticode.core.ui.base
+package com.alticode.framework.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

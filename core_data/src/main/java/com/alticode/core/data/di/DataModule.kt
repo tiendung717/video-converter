@@ -2,8 +2,8 @@ package com.alticode.core.data.di
 
 import android.content.Context
 import com.alticode.core.data.datasource.database.VideoDatabase
-import com.alticode.core.data.domain.VideoRepo
-import com.alticode.core.data.domain.VideoRepoImpl
+import com.alticode.core.data.domain.MediaRepo
+import com.alticode.core.data.domain.MediaRepoImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,5 +21,5 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideVideoRepo(database: VideoDatabase): VideoRepo = VideoRepoImpl(database)
+    fun provideVideoRepo(database: VideoDatabase): MediaRepo = MediaRepoImpl(database)
 }

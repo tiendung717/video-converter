@@ -42,7 +42,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':core_ui')
+    implementation project(':framework_ui')
+    implementation project(':core_data')
     implementation project(':core_ffmpeg')
     implementation project(':platform')
 

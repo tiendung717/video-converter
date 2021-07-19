@@ -2,9 +2,9 @@ package com.alticode.core.data.domain
 
 import com.alticode.core.data.domain.model.Media
 
-interface VideoRepo {
+interface MediaRepo {
 
     suspend fun getAllVideos() : List<Media>
-    suspend fun saveVideo(media: Media)
+    suspend fun saveOutput(media: Media)
     suspend fun deleteVideo(media: Media)
 }

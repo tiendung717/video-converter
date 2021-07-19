@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alticode.core.data.domain.model.Media
 import com.alticode.core.data.presentation.viewmodel.VideoViewModel
-import com.alticode.core.ui.base.BaseFragment
+import com.alticode.framework.ui.base.BaseFragment
 import com.alticode.platform.utils.hasGranted
 import com.alticode.videoeditor.R
 import com.alticode.videoeditor.adapter.AdapterFactory

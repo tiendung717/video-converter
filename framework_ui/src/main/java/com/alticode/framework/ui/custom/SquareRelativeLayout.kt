@@ -1,4 +1,4 @@
-package com.alticode.core.ui.custom
+package com.alticode.framework.ui.custom
 
 import android.content.Context
 import android.util.AttributeSet

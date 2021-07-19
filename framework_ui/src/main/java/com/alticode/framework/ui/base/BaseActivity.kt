@@ -1,4 +1,4 @@
-package com.alticode.core.ui.base
+package com.alticode.framework.ui.base
 
 import androidx.appcompat.app.AppCompatActivity
 

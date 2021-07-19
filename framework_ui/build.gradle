@@ -39,6 +39,8 @@ android {
 }
 
 dependencies {
+    implementation project(':core_ffmpeg')
+    implementation project(':core_data')
     implementation project(':platform')
 
     implementation rootProject.deps.coreKtx
