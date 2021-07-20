@@ -27,7 +27,6 @@
             android:id="@+id/btnPlay"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            app:tint="@color/white"
             tool:src="@drawable/ic_play" />
 
         <com.google.android.material.slider.Slider
@@ -44,7 +43,6 @@
             style="@style/TextAppearance.MaterialComponents.Body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
             tool:text="00:00:12" />
     </LinearLayout>
 </merge>

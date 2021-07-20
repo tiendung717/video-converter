@@ -37,6 +37,7 @@ class VideoCutterFragment : BaseFragment<FragmentVideoCutterBinding>(R.layout.fr
         super.onViewCreated(view, savedInstanceState)
 
         binding.videoView.setVideoPath(args.path)
+        binding.videoListView.setVideoPathList(listOf(args.path))
         binding.btnTrim.setOnClickListener {
             doTrim()
         }

@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'com.jakewharton.butterknife'
 }
 
 android {
@@ -56,4 +57,9 @@ dependencies {
     implementation rootProject.deps.rxJava
 
     implementation rootProject.deps.exoPlayer
+    implementation rootProject.deps.epoxy
+    kapt rootProject.deps.kaptEpoxy
+
+    implementation rootProject.deps.glide
+    kapt rootProject.deps.kaptGlide
 }

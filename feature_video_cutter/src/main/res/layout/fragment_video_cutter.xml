@@ -7,6 +7,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <com.alticode.framework.ui.components.video.VideoListView
+            android:id="@+id/videoListView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
         <com.alticode.framework.ui.components.video.VideoView
             android:id="@+id/videoView"
             android:layout_width="match_parent"
