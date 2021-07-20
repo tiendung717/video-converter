@@ -7,15 +7,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.exoplayer2.ui.StyledPlayerView
+        <com.alticode.framework.ui.components.video.VideoView
             android:id="@+id/videoView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            app:resize_mode="fixed_height"
-            app:shutter_background_color="@color/black"
-            app:surface_type="texture_view"
-            app:use_controller="true" />
+            android:layout_weight="1" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnTrim"

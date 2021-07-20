@@ -36,14 +36,7 @@ class VideoCutterFragment : BaseFragment<FragmentVideoCutterBinding>(R.layout.fr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.videoView.player = SimpleExoPlayer.Builder(requireContext()).build().apply {
-            val mediaUri = Uri.fromFile(File(args.path))
-            val mediaItem = MediaItem.fromUri(mediaUri)
-            setMediaItem(mediaItem)
-            playWhenReady = true
-            prepare()
-        }
-
+        binding.videoView.setVideoPath(args.path)
         binding.btnTrim.setOnClickListener {
             doTrim()
         }

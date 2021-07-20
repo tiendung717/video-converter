@@ -54,4 +54,6 @@ dependencies {
 
     implementation rootProject.deps.rxAndroid
     implementation rootProject.deps.rxJava
+
+    implementation rootProject.deps.exoPlayer
 }

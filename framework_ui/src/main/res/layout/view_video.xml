@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    tool:parentTag="android.widget.LinearLayout">
+
+    <com.google.android.exoplayer2.ui.StyledPlayerView
+        android:id="@+id/exoPlayerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:resize_mode="fixed_height"
+        app:shutter_background_color="@color/black"
+        app:surface_type="texture_view"
+        app:use_controller="false" />
+
+    <LinearLayout
+        android:id="@+id/mediaController"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnPlay"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:tint="@color/white"
+            tool:src="@drawable/ic_play" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/progressSlider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:haloRadius="6dp"
+            app:thumbRadius="4dp"
+            app:trackHeight="2dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvDuration"
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            tool:text="00:00:12" />
+    </LinearLayout>
+</merge>
