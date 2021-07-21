@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.MetadataRetriever
 import java.io.File
 
-@EpoxyModelClass(layout = R2.layout.holder_video_item)
+
 abstract class VideoItemModel : EpoxyModelWithHolder<VideoItemModel.Holder>() {
 
     @EpoxyAttribute
@@ -37,7 +37,7 @@ abstract class VideoItemModel : EpoxyModelWithHolder<VideoItemModel.Holder>() {
             .into(holder.thumbnailImageView)
 
         metadataRetriever.setDataSource(videoPath)
-        holder.tvName.text = videoFile.name
+        holder.tvName?.text = videoFile.name
         holder.tvInfo.text =
             metadataRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
                 .orEmpty()
@@ -55,7 +55,7 @@ abstract class VideoItemModel : EpoxyModelWithHolder<VideoItemModel.Holder>() {
 
     class Holder : EpoxyHolder() {
         lateinit var thumbnailImageView: ImageView
-        lateinit var tvName: TextView
+        var tvName: TextView? = null
         lateinit var tvInfo: TextView
         lateinit var btnRemove: View
 
@@ -67,3 +67,9 @@ abstract class VideoItemModel : EpoxyModelWithHolder<VideoItemModel.Holder>() {
         }
     }
 }
+
+@EpoxyModelClass(layout = R2.layout.holder_video_item_vertical)
+abstract class VideoItemVerticalModel: VideoItemModel()
+
+@EpoxyModelClass(layout = R2.layout.holder_video_item_horizontal)
+abstract class VideoItemHorizontalModel: VideoItemModel()
