@@ -1,22 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="12dp">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/videoThumbnail"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/thumbnailLayout"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginEnd="12dp"
-        android:scaleType="centerCrop" />
+        app:cardCornerRadius="8dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/videoThumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/sample" />
+    </androidx.cardview.widget.CardView>
+
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvName"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@id/videoThumbnail"
-        android:layout_toEndOf="@id/videoThumbnail"
+        android:layout_alignTop="@id/thumbnailLayout"
+        android:layout_toEndOf="@id/thumbnailLayout"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textSize="14sp"
         tools:text="Video.mp4" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -25,7 +40,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tvName"
         android:layout_alignStart="@id/tvName"
+        android:gravity="center"
         tools:text="00:20:30 - 100 MB" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/btnRemove"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentEnd="true"
+        android:padding="4dp"
+        app:srcCompat="@drawable/ic_video_remove"
+        app:tint="?colorControlNormal"
+        tools:tint="?android:colorControlNormal" />
 
 
 </RelativeLayout>

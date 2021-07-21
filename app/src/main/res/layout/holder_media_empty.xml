@@ -12,19 +12,19 @@
         app:srcCompat="@drawable/empty" />
 
     <com.google.android.material.textview.MaterialTextView
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
         android:text="@string/message_video_empty"
-        android:textColor="@color/white"
         android:textSize="16sp"
         android:textStyle="bold" />
 
     <com.google.android.material.textview.MaterialTextView
+        style="@style/TextAppearance.AppCompat.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/message_video_empty_description"
-        android:textColor="@color/white"
         android:alpha="0.4"
+        android:text="@string/message_video_empty_description"
         android:textSize="14sp" />
 </LinearLayout>

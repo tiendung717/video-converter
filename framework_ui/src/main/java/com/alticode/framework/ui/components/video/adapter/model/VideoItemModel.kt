@@ -23,6 +23,9 @@ abstract class VideoItemModel : EpoxyModelWithHolder<VideoItemModel.Holder>() {
     @EpoxyAttribute
     lateinit var videoPath: String
 
+    @EpoxyAttribute(EpoxyAttribute.Option.DoNotHash)
+    lateinit var clickListener: View.OnClickListener
+
     private val metadataRetriever by lazy { MediaMetadataRetriever() }
 
     override fun bind(holder: Holder) {
@@ -40,23 +43,27 @@ abstract class VideoItemModel : EpoxyModelWithHolder<VideoItemModel.Holder>() {
                 .orEmpty()
                 .toLong()
                 .toTime()
+
+        holder.btnRemove.setOnClickListener(clickListener)
     }
 
     override fun unbind(holder: Holder) {
         super.unbind(holder)
         metadataRetriever.release()
+        holder.btnRemove.setOnClickListener(null)
     }
 
     class Holder : EpoxyHolder() {
         lateinit var thumbnailImageView: ImageView
         lateinit var tvName: TextView
         lateinit var tvInfo: TextView
-
+        lateinit var btnRemove: View
 
         override fun bindView(itemView: View) {
             thumbnailImageView = itemView.findViewById(R.id.videoThumbnail)
             tvName = itemView.findViewById(R.id.tvName)
             tvInfo = itemView.findViewById(R.id.tvInfo)
+            btnRemove = itemView.findViewById(R.id.btnRemove)
         }
     }
 }

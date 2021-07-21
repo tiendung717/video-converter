@@ -5,10 +5,10 @@ import android.os.HandlerThread
 
 object AdapterFactory {
 
-    fun createVideoListAdapter(): VideoListController {
+    fun createVideoListAdapter(onVideoRemoveListener: OnVideoRemoveListener): VideoListController {
         val handlerThread = HandlerThread("VideoListController")
         handlerThread.start()
         val handler = Handler(handlerThread.looper)
-        return VideoListController(handler)
+        return VideoListController(handler, onVideoRemoveListener)
     }
 }
