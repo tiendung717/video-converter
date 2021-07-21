@@ -14,6 +14,7 @@ import com.alticode.core.ffmpeg.filter.FFmpegNormalFilter
 import com.alticode.framework.ui.base.BaseFragment
 import com.alticode.feature.video.R
 import com.alticode.feature.video.databinding.FragmentVideoCutterBinding
+import com.alticode.framework.ui.components.DropDownMenu
 import com.alticode.framework.ui.viewmodel.UniverseViewModel
 import com.alticode.platform.log.AppLog
 import com.google.android.exoplayer2.MediaItem
@@ -38,8 +39,15 @@ class VideoCutterFragment : BaseFragment<FragmentVideoCutterBinding>(R.layout.fr
 
         binding.videoView.setVideoPath(args.path)
         binding.videoListView.setVideoPathList(listOf(args.path))
+        binding.dropdownMenu.setItems(listOf(
+            DropDownMenu.Item("One", 1),
+            DropDownMenu.Item("Two", 2),
+            DropDownMenu.Item("Three", 3),
+            DropDownMenu.Item("Four", 4)
+        ), DropDownMenu.Item("Two", 2))
+
         binding.btnTrim.setOnClickListener {
-            doTrim()
+            AppLog.i("Current item: ${binding.dropdownMenu.getCurrentItem()}")
         }
     }
 
