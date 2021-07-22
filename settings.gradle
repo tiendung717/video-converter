@@ -1,4 +1,4 @@
-rootProject.name = "Video Editor"
+rootProject.name = "Video Converter"
 include ':app'
 include ':platform'
 include ':framework_ui'

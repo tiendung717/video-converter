@@ -2,7 +2,7 @@ package com.alticode.core.extractor
 
 import com.alticode.core.extractor.model.MediaInfo
 
-interface MediaExtractor {
+interface MediaDecoder {
 
-    suspend fun extractVideo(path: String): MediaInfo
+    suspend fun extractMedia(path: String): MediaInfo
 }
