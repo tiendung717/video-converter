@@ -1,6 +1,5 @@
 package com.alticode.feature.video.cutter
 
-import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
@@ -10,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.alticode.core.ffmpeg.FFCallback
 import com.alticode.core.ffmpeg.FFmpegExecutor
-import com.alticode.core.ffmpeg.filter.FFmpegNormalFilter
+import com.alticode.core.ffmpeg.FFStepExtension
 import com.alticode.framework.ui.base.BaseFragment
 import com.alticode.feature.video.R
 import com.alticode.feature.video.databinding.FragmentVideoCutterBinding
@@ -18,8 +17,6 @@ import com.alticode.framework.ui.components.DropDownMenu
 import com.alticode.framework.ui.components.SingleChoiceView
 import com.alticode.framework.ui.viewmodel.UniverseViewModel
 import com.alticode.platform.log.AppLog
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.SimpleExoPlayer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
@@ -60,18 +57,8 @@ class VideoCutterFragment : BaseFragment<FragmentVideoCutterBinding>(R.layout.fr
     }
 
     private fun doTrim() {
-        val trimFilter = object : FFmpegNormalFilter() {
-            override fun getParams(): List<String> {
-                return listOf(
-                    "-ss",
-                    "00:00:02",
-                    "-to",
-                    "00:00:04"
-                )
-            }
-
-        }
-        ffmpegExecutor.run(activity as AppCompatActivity, args.path, output(), listOf(trimFilter), object : FFCallback {
+        val trimStep = FFStepExtension.cutVideo("00:00:22", "00:00:30")
+        ffmpegExecutor.run(activity as AppCompatActivity, args.path, output(), listOf(trimStep), object : FFCallback {
             override fun onProgress(progress: String) {
                 AppLog.i("onProgress: $progress")
             }
