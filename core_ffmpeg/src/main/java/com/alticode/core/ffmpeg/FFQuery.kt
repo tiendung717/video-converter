@@ -11,7 +11,7 @@ import com.simform.videooperations.LogMessage
 import com.simform.videooperations.Statistics
 import java.util.*
 
-data class FFQuery(
+internal data class FFQuery(
     val activity: AppCompatActivity,
     val input: String,
     val output: String,

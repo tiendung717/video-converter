@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/core_data" />
             <option value="$PROJECT_DIR$/core_ffmpeg" />
+            <option value="$PROJECT_DIR$/core_media_extractor" />
             <option value="$PROJECT_DIR$/feature_video2audio" />
             <option value="$PROJECT_DIR$/feature_video_converter" />
             <option value="$PROJECT_DIR$/feature_video_cutter" />
