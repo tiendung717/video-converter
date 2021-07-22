@@ -15,6 +15,7 @@ import com.alticode.framework.ui.base.BaseFragment
 import com.alticode.feature.video.R
 import com.alticode.feature.video.databinding.FragmentVideoCutterBinding
 import com.alticode.framework.ui.components.DropDownMenu
+import com.alticode.framework.ui.components.SingleChoiceView
 import com.alticode.framework.ui.viewmodel.UniverseViewModel
 import com.alticode.platform.log.AppLog
 import com.google.android.exoplayer2.MediaItem
@@ -45,6 +46,13 @@ class VideoCutterFragment : BaseFragment<FragmentVideoCutterBinding>(R.layout.fr
             DropDownMenu.Item("Three", 3),
             DropDownMenu.Item("Four", 4)
         ), DropDownMenu.Item("Two", 2))
+
+        binding.singleChoiceView.setData("Test format", listOf(
+            SingleChoiceView.Option("MP4", 1),
+            SingleChoiceView.Option("AVI", 2),
+            SingleChoiceView.Option("MKV", 3),
+            SingleChoiceView.Option("HLS", 4)
+        ), SingleChoiceView.Option("AVI", 2))
 
         binding.btnTrim.setOnClickListener {
             AppLog.i("Current item: ${binding.dropdownMenu.getCurrentItem()}")

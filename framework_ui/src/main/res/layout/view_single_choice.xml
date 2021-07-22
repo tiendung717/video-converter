@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    tools:parentTag="android.widget.RelativeLayout"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvTitle"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@id/tvValue"
+        android:ellipsize="end"
+        android:padding="12dp"
+        android:singleLine="true"
+        android:textAllCaps="true"
+        android:textSize="14sp"
+        tools:text="Format" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvValue"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tvTitle"
+        android:layout_alignBottom="@id/tvTitle"
+        android:layout_toStartOf="@id/trailingIcon"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textAllCaps="true"
+        android:textSize="14sp"
+        tools:text="MP4" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/trailingIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:src="@drawable/ic_arrow_right"
+        app:tint="?colorControlNormal"
+        tools:tint="?android:colorControlNormal" />
+</merge>

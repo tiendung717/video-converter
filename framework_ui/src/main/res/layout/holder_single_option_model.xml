@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvOption"
+        style="@style/TextAppearance.MaterialComponents.Body1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/checked"
+        android:paddingVertical="8dp"
+        android:textSize="14sp"
+        tools:text="Option 1" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/checked"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:padding="4dp"
+        app:srcCompat="@drawable/ic_checked"
+        app:tint="?colorControlNormal"
+        tools:tint="?android:colorControlNormal" />
+</RelativeLayout>
