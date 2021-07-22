@@ -13,4 +13,5 @@
     </fragment>
 
     <include app:graph="@navigation/nav_video_cutter" />
+    <include app:graph="@navigation/nav_video_converter" />
 </navigation>

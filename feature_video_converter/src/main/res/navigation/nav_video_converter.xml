@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_video_converter"
+    app:startDestination="@id/videoConverter">
+
+    <fragment
+        android:id="@+id/videoConverter"
+        android:name="com.alticode.feature.video.converter.VideoConverterFragment"
+        android:label="Video Converter"
+        tools:layout="@layout/fragment_video_converter">
+        <deepLink app:uri="nav://video.converter/?path={path}" />
+        <argument
+            android:name="path"
+            app:argType="string" />
+    </fragment>
+</navigation>

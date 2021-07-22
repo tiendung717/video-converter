@@ -6,8 +6,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
 import com.airbnb.epoxy.EpoxyRecyclerView
 import com.alticode.framework.ui.R
 import com.alticode.framework.ui.adapter.AdapterFactory
@@ -41,7 +39,7 @@ class SingleChoiceView(context: Context?, attrs: AttributeSet?) : RelativeLayout
         setOnClickListener { showOptionDialog() }
     }
 
-    fun getCurrentValue() = options.find { it.text == valueText }
+    fun getCurrentValue() = options.find { it.text == valueText }?.value
 
     private fun showOptionDialog() {
         SingleChoiceDialog(

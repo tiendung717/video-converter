@@ -29,6 +29,7 @@
         <entry key="feature_editor/src/main/res/layout/holder_sticker.xml" value="0.3759057971014493" />
         <entry key="feature_editor/src/main/res/layout/holder_text.xml" value="0.3759057971014493" />
         <entry key="feature_editor/src/main/res/menu/menu_editor.xml" value="0.4036458333333333" />
+        <entry key="feature_video_converter/src/main/res/layout/fragment_video_converter.xml" value="0.38315217391304346" />
         <entry key="feature_video_cutter/src/main/res/layout/fragment_video_cutter.xml" value="0.3591485507246377" />
         <entry key="framework_ui/src/main/res/layout/fragment_single_choice.xml" value="0.38315217391304346" />
         <entry key="framework_ui/src/main/res/layout/fragment_video_view.xml" value="0.33" />

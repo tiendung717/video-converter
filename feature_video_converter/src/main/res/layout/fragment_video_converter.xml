@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.alticode.framework.ui.components.SingleChoiceView
+            android:id="@+id/format"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.alticode.framework.ui.components.SingleChoiceView
+            android:id="@+id/resolution"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.alticode.framework.ui.components.SingleChoiceView
+            android:id="@+id/frameRate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.alticode.framework.ui.components.SingleChoiceView
+            android:id="@+id/videoCodec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.alticode.framework.ui.components.SingleChoiceView
+            android:id="@+id/audioCodec"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConvert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Convert" />
+    </LinearLayout>
+</layout>
