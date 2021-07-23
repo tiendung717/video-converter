@@ -10,7 +10,6 @@ class MediaCodecParam(
     val height: Int,
     val bitRate: Int,
     val frameRate: Int,
-    val numFrame: Int,
     val copyVideo: Boolean,
     val copyAudio: Boolean,
     val inputPath: String,

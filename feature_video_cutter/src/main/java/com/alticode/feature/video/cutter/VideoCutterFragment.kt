@@ -1,5 +1,6 @@
 package com.alticode.feature.video.cutter
 
+import android.media.MediaFormat
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
@@ -7,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.alticode.core.extractor.AltiMediaCodec
+import com.alticode.core.extractor.model.MediaCodecParam
 import com.alticode.core.ffmpeg.FFCallback
 import com.alticode.core.ffmpeg.FFmpegExecutor
 import com.alticode.core.ffmpeg.FFStepExtension
@@ -32,6 +35,9 @@ class VideoCutterFragment : BaseFragment<FragmentVideoCutterBinding>(R.layout.fr
     @Inject
     lateinit var ffmpegExecutor: FFmpegExecutor
 
+    @Inject
+    lateinit var mediaCodec: AltiMediaCodec
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -52,22 +58,36 @@ class VideoCutterFragment : BaseFragment<FragmentVideoCutterBinding>(R.layout.fr
         ), SingleChoiceView.Option("AVI", 2))
 
         binding.btnTrim.setOnClickListener {
-            AppLog.i("Current item: ${binding.dropdownMenu.getCurrentItem()}")
+            doTrim()
         }
     }
 
     private fun doTrim() {
-        val trimStep = FFStepExtension.cutVideo("00:00:22", "00:00:30")
-        ffmpegExecutor.run(activity as AppCompatActivity, args.path, output(), listOf(trimStep), object : FFCallback {
-            override fun onProgress(progress: String) {
-                AppLog.i("onProgress: $progress")
-            }
+//        val trimStep = FFStepExtension.cutVideo("00:00:22", "00:00:30")
+//        ffmpegExecutor.run(activity as AppCompatActivity, args.path, output(), listOf(trimStep), object : FFCallback {
+//            override fun onProgress(progress: String) {
+//                AppLog.i("onProgress: $progress")
+//            }
+//
+//            override fun onSuccess() {
+//                AppLog.i("DONE")
+//                lifecycleScope.launch { universeViewModel.saveOutput(com.alticode.core.data.domain.model.Media(args.path)) }
+//            }
+//        })
 
-            override fun onSuccess() {
-                AppLog.i("DONE")
-                lifecycleScope.launch { universeViewModel.saveOutput(com.alticode.core.data.domain.model.Media(args.path)) }
-            }
-        })
+        lifecycleScope.launch {
+            mediaCodec.encodeVideo(MediaCodecParam(
+                mimeType = MediaFormat.MIMETYPE_VIDEO_AVC,
+                width = 16*20,
+                height = 16*30,
+                bitRate = 2000000,
+                frameRate = 25,
+                copyVideo = true,
+                copyAudio = true,
+                inputPath = args.path,
+                outputPath = output()
+            ))
+        }
     }
 
     private fun output(): String {

@@ -41,7 +41,7 @@ public class VideoComposer {
     }
 
     private static final String TAG = VideoComposer.class.getSimpleName();
-    private static final boolean VERBOSE = false; // lots of logging
+    private static final boolean VERBOSE = true; // lots of logging
 
     /**
      * How long to wait for the next buffer to become available.
