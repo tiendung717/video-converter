@@ -1,11 +1,12 @@
 package com.alticode.core.extractor
 
 import android.media.*
+import com.alticode.core.extractor.cts.VideoComposer
+import com.alticode.core.extractor.model.MediaCodecParam
 import com.alticode.core.extractor.model.MediaInfo
-import com.alticode.platform.log.AppLog
-import java.lang.StringBuilder
 
-class MediaDecoderImpl : MediaDecoder {
+
+class AltiMediaCodecImpl : AltiMediaCodec {
     override suspend fun extractMedia(path: String): MediaInfo {
         val mediaExtractor = MediaExtractor()
         mediaExtractor.setDataSource(path)
@@ -18,21 +19,16 @@ class MediaDecoderImpl : MediaDecoder {
         val height = videoFormat.getInteger(MediaFormat.KEY_HEIGHT)
         val mimeType = videoFormat.getString(MediaFormat.KEY_MIME)
 
-
-        val allCodecs = MediaCodecList(MediaCodecList.ALL_CODECS).codecInfos
-        val allEncoders = allCodecs.filter { it.isEncoder }
-        val allDecoders = allCodecs.filter { !it.isEncoder }
-        allEncoders.forEach {
-            AppLog.i("Encoder: ${it.name}")
-            val supportTypes = StringBuilder()
-            it.supportedTypes.forEach { type ->
-                supportTypes.append(type).append(",")
-            }
-            AppLog.i("Supported types: $supportTypes")
-        }
         mediaExtractor.release()
-        return MediaInfo()
+        return MediaInfo(
+            frameRate = frameRate,
+            width = width,
+            height = height,
+            mimeType = mimeType
+        )
     }
 
-
+    override suspend fun encodeVideo(param: MediaCodecParam) {
+        VideoComposer(param).extractDecodeEditEncodeMux()
+    }
 }

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import com.alticode.core.extractor.MediaDecoder
+import com.alticode.core.extractor.AltiMediaCodec
 import com.alticode.feature.video.converter.databinding.FragmentVideoConverterBinding
 import com.alticode.framework.ui.base.BaseFragment
 import com.alticode.framework.ui.components.SingleChoiceView
@@ -18,7 +18,7 @@ class VideoConverterFragment : BaseFragment<FragmentVideoConverterBinding>(R.lay
     private val args: VideoConverterFragmentArgs by navArgs()
 
     @Inject
-    lateinit var mediaDecoder: MediaDecoder
+    lateinit var altiMediaCodec: AltiMediaCodec
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -56,7 +56,7 @@ class VideoConverterFragment : BaseFragment<FragmentVideoConverterBinding>(R.lay
         binding.btnConvert.setOnClickListener { convert() }
 
         lifecycleScope.launch {
-            mediaDecoder.extractMedia(args.path)
+            altiMediaCodec.extractMedia(args.path)
         }
     }
 

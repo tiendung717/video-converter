@@ -1,7 +1,7 @@
 package com.alticode.core.extractor.di
 
-import com.alticode.core.extractor.MediaDecoder
-import com.alticode.core.extractor.MediaDecoderImpl
+import com.alticode.core.extractor.AltiMediaCodec
+import com.alticode.core.extractor.AltiMediaCodecImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,5 +14,5 @@ class ExtractorModule {
 
     @Provides
     @Singleton
-    fun provideMediaDecoder(): MediaDecoder = MediaDecoderImpl()
+    fun provideMediaCodec(): AltiMediaCodec = AltiMediaCodecImpl()
 }

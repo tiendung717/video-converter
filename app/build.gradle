@@ -63,7 +63,7 @@ dependencies {
     implementation project(':framework_ui')
     implementation project(':core_ffmpeg')
     implementation project(':core_data')
-    implementation project(':core_media_extractor')
+    implementation project(':core_mediacodec')
     implementation project(':platform')
 
     implementation rootProject.deps.coreKtx

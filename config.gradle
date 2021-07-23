@@ -3,7 +3,7 @@ rootProject.ext.java_target_version = JavaVersion.VERSION_1_8
 
 rootProject.ext.target_sdk = 30
 rootProject.ext.compile_sdk = 30
-rootProject.ext.min_sdk = 21
+rootProject.ext.min_sdk = 23
 rootProject.ext.buildTools = "30.0.3"
 rootProject.ext.version_code = 1
 rootProject.ext.version_name = "1.0.0"
