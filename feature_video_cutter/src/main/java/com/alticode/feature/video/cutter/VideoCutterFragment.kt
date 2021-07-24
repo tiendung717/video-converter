@@ -81,7 +81,7 @@ class VideoCutterFragment : BaseFragment<FragmentVideoCutterBinding>(R.layout.fr
                 width = 16*20,
                 height = 16*30,
                 bitRate = 2000000,
-                frameRate = 25,
+                frameRate = 15,
                 copyVideo = true,
                 copyAudio = true,
                 inputPath = args.path,

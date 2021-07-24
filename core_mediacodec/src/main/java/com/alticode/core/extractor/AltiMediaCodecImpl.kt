@@ -4,6 +4,8 @@ import android.media.*
 import com.alticode.core.extractor.cts.VideoComposer
 import com.alticode.core.extractor.model.MediaCodecParam
 import com.alticode.core.extractor.model.MediaInfo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 
 class AltiMediaCodecImpl : AltiMediaCodec {
@@ -29,6 +31,8 @@ class AltiMediaCodecImpl : AltiMediaCodec {
     }
 
     override suspend fun encodeVideo(param: MediaCodecParam) {
-        VideoComposer(param).extractDecodeEditEncodeMux()
+        withContext(Dispatchers.IO) {
+            VideoComposer(param).extractDecodeEditEncodeMux()
+        }
     }
 }
