@@ -2,10 +2,12 @@ package com.alticode.core.extractor.model
 
 import android.media.MediaCodecInfo
 import android.media.MediaCodecList
-import android.media.MediaFormat
 
 class MediaCodecParam(
-    val mimeType: String, // MediaFormat.MIMETYPE_VIDEO_AVC
+    val videoMimeType: String, // MediaFormat.MIMETYPE_VIDEO_AVC
+    val audioMimeType: String,
+    val audioChannelCount: Int,
+    val audioSampleRate: Int,
     val width: Int,
     val height: Int,
     val bitRate: Int,
@@ -19,7 +21,7 @@ class MediaCodecParam(
     fun getCodecInfo(): MediaCodecInfo? {
         val codecList = MediaCodecList(MediaCodecList.ALL_CODECS)
         codecList.codecInfos.filter { it.isEncoder }.forEach {
-            if (it.supportedTypes.find { type -> type.equals(mimeType, true) } != null) {
+            if (it.supportedTypes.find { type -> type.equals(videoMimeType, true) } != null) {
                 return it
             }
         }

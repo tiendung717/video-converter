@@ -54,7 +54,6 @@ public class VideoComposer {
     // parameters for the audio encoder
     // Advanced Audio Coding
     private static final String OUTPUT_AUDIO_MIME_TYPE = MediaFormat.MIMETYPE_AUDIO_AAC;
-    private static final int OUTPUT_AUDIO_CHANNEL_COUNT = 2;    // Must match the input stream.
     private static final int OUTPUT_AUDIO_BIT_RATE = 128 * 1024;
     private static final int OUTPUT_AUDIO_SAMPLE_RATE_HZ = 44100; // Must match the input stream.
 
@@ -88,7 +87,7 @@ public class VideoComposer {
         // We avoid the device-specific limitations on width and height by using values
         // that are multiples of 16, which all tested devices seem to be able to handle.
         MediaFormat outputVideoFormat =
-                MediaFormat.createVideoFormat(param.getMimeType(), param.getWidth(), param.getHeight());
+                MediaFormat.createVideoFormat(param.getVideoMimeType(), param.getWidth(), param.getHeight());
 
         // Set some properties. Failing to specify some of these can cause the MediaCodec
         // configure() call to throw an unhelpful exception.
@@ -110,8 +109,8 @@ public class VideoComposer {
 
         MediaFormat outputAudioFormat =
                 MediaFormat.createAudioFormat(
-                        OUTPUT_AUDIO_MIME_TYPE, OUTPUT_AUDIO_SAMPLE_RATE_HZ,
-                        OUTPUT_AUDIO_CHANNEL_COUNT);
+                        param.getAudioMimeType(), param.getAudioSampleRate(),
+                        param.getAudioChannelCount());
         outputAudioFormat.setInteger(MediaFormat.KEY_BIT_RATE, OUTPUT_AUDIO_BIT_RATE);
         // TODO: Bug workaround --- uncomment once fixed.
         // outputAudioFormat.setInteger(MediaFormat.KEY_AAC_PROFILE, OUTPUT_AUDIO_AAC_PROFILE);

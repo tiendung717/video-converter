@@ -18,7 +18,7 @@ package com.alticode.core.extractor.cts;
 
 import android.media.MediaCodec;
 
-public interface InputSurfaceInterface {
+interface InputSurfaceInterface {
 
     void makeCurrent();
 

@@ -76,8 +76,12 @@ class VideoCutterFragment : BaseFragment<FragmentVideoCutterBinding>(R.layout.fr
 //        })
 
         lifecycleScope.launch {
+            mediaCodec.extractMedia(args.path)
             mediaCodec.encodeVideo(MediaCodecParam(
-                mimeType = MediaFormat.MIMETYPE_VIDEO_AVC,
+                videoMimeType = MediaFormat.MIMETYPE_VIDEO_AVC,
+                audioMimeType = MediaFormat.MIMETYPE_AUDIO_AAC,
+                audioChannelCount = 1,
+                audioSampleRate = 44100,
                 width = 16*20,
                 height = 16*30,
                 bitRate = 2000000,
