@@ -9,10 +9,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.alticode.core.extractor.AltiMediaCodec
-import com.alticode.core.extractor.model.MediaCodecParam
+import com.alticode.core.extractor.model.MediaEncoderParam
 import com.alticode.core.ffmpeg.FFCallback
-import com.alticode.core.ffmpeg.FFmpegExecutor
 import com.alticode.core.ffmpeg.FFStepExtension
+import com.alticode.core.ffmpeg.FFmpegExecutor
 import com.alticode.framework.ui.base.BaseFragment
 import com.alticode.feature.video.R
 import com.alticode.feature.video.databinding.FragmentVideoCutterBinding
@@ -50,12 +50,6 @@ class VideoCutterFragment : BaseFragment<FragmentVideoCutterBinding>(R.layout.fr
             DropDownMenu.Item("Four", 4)
         ), DropDownMenu.Item("Two", 2))
 
-        binding.singleChoiceView.setData("Test format", listOf(
-            SingleChoiceView.Option("MP4", 1),
-            SingleChoiceView.Option("AVI", 2),
-            SingleChoiceView.Option("MKV", 3),
-            SingleChoiceView.Option("HLS", 4)
-        ), SingleChoiceView.Option("AVI", 2))
 
         binding.btnTrim.setOnClickListener {
             doTrim()
@@ -63,35 +57,17 @@ class VideoCutterFragment : BaseFragment<FragmentVideoCutterBinding>(R.layout.fr
     }
 
     private fun doTrim() {
-//        val trimStep = FFStepExtension.cutVideo("00:00:22", "00:00:30")
-//        ffmpegExecutor.run(activity as AppCompatActivity, args.path, output(), listOf(trimStep), object : FFCallback {
-//            override fun onProgress(progress: String) {
-//                AppLog.i("onProgress: $progress")
-//            }
-//
-//            override fun onSuccess() {
-//                AppLog.i("DONE")
-//                lifecycleScope.launch { universeViewModel.saveOutput(com.alticode.core.data.domain.model.Media(args.path)) }
-//            }
-//        })
+        val trimStep = FFStepExtension.cutVideo("00:00:22", "00:00:30")
+        ffmpegExecutor.run(activity as AppCompatActivity, args.path, output(), listOf(trimStep), object : FFCallback {
+            override fun onProgress(progress: String) {
+                AppLog.i("onProgress: $progress")
+            }
 
-        lifecycleScope.launch {
-            mediaCodec.extractMedia(args.path)
-            mediaCodec.encodeVideo(MediaCodecParam(
-                videoMimeType = MediaFormat.MIMETYPE_VIDEO_AVC,
-                audioMimeType = MediaFormat.MIMETYPE_AUDIO_AAC,
-                audioChannelCount = 1,
-                audioSampleRate = 44100,
-                width = 16*20,
-                height = 16*30,
-                bitRate = 2000000,
-                frameRate = 15,
-                copyVideo = true,
-                copyAudio = true,
-                inputPath = args.path,
-                outputPath = output()
-            ))
-        }
+            override fun onSuccess() {
+                AppLog.i("DONE")
+                lifecycleScope.launch { universeViewModel.saveOutput(com.alticode.core.data.domain.model.Media(args.path)) }
+            }
+        })
     }
 
     private fun output(): String {

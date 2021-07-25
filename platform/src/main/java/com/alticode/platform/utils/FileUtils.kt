@@ -1,8 +1,10 @@
 package com.alticode.platform.utils
 
 import android.content.Context
+import android.os.Environment
 import java.io.File
 import java.io.IOException
+import java.util.*
 
 object FileUtils {
     @Throws(IOException::class)
@@ -16,4 +18,12 @@ object FileUtils {
                 }
             }
         }
+
+
+    fun getOutputPath(name: String, extension: String): String {
+        val dirPath = "${Environment.getExternalStorageDirectory().absolutePath}/converter"
+        val outputDir = File(dirPath)
+        if (!outputDir.exists()) outputDir.mkdir()
+        return "$dirPath/${name}.$extension"
+    }
 }

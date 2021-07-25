@@ -13,53 +13,56 @@ import com.alticode.framework.ui.adapter.controller.OptionClickListener
 import com.alticode.platform.delegation.text
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import java.io.Serializable
+import kotlin.properties.ReadOnlyProperty
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
-class SingleChoiceView(context: Context?, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
+typealias OnOptionChangedListener = (option: SingleChoiceView.Option) -> Unit
+
+class SingleChoiceView(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs) {
 
     class Option(val text: String, val value: Serializable) : Serializable
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_single_choice, this, true)
+        setOnClickListener {
+            SingleChoiceDialog(
+                context = context,
+                title = title,
+                selectedText = valueText,
+                options = allOptions,
+                optionClickListener = {
+                    this.valueText = it.text
+                    optionChangedListener?.invoke(it)
+                }
+            ).show()
+        }
     }
 
     private val tvTitle: TextView by lazy { findViewById(R.id.tvTitle) }
     private val tvValue: TextView by lazy { findViewById(R.id.tvValue) }
-    private val options by lazy { mutableListOf<Option>() }
-    private var defOption: Option? = null
 
-    private var title by tvTitle.text()
-    private var valueText by tvValue.text()
+    var title by tvTitle.text()
+    var valueText by tvValue.text()
+    var optionList by optionList()
+    val selectedOption by currentOption()
+    var optionChangedListener: OnOptionChangedListener? = null
+    var allOptions = listOf<Option>()
 
-    fun setData(title: String, options: List<Option>, defOption: Option? = null) {
-        this.title = title
-        this.defOption = defOption
-        this.options.addAll(options)
-        this.valueText = defOption?.text ?: options[0].text
-
-        setOnClickListener { showOptionDialog() }
+    fun setOptions(options: List<Option>) {
+        this.valueText = options[0].text
+        this.allOptions = options
     }
 
-    fun getCurrentValue() = options.find { it.text == valueText }?.value
+    fun getCurrentValue() = allOptions.find { it.text == valueText }?.value
 
-    private fun showOptionDialog() {
-        SingleChoiceDialog(
-            context = context,
-            title = title,
-            defOption = defOption,
-            options = options,
-            optionClickListener = {
-                valueText = it.text
-                defOption = it
-            }
-        ).show()
-    }
 }
 
 internal class SingleChoiceDialog(
     context: Context,
     val title: String,
     val options: List<SingleChoiceView.Option>,
-    val defOption: SingleChoiceView.Option? = null,
+    val selectedText: String,
     val optionClickListener: OptionClickListener
 ) : BottomSheetDialog(context) {
 
@@ -80,8 +83,44 @@ internal class SingleChoiceDialog(
             dismiss()
         }
         rvOption?.setController(optionController)
-
-        val defText = defOption?.text.orEmpty()
-        optionController.setData(defText, options)
+        optionController.setData(selectedText, options)
     }
+}
+
+fun SingleChoiceView.optionList(): ReadWriteProperty<Any, List<SingleChoiceView.Option>> {
+    val singleChoiceView = this
+    return object : ReadWriteProperty<Any, List<SingleChoiceView.Option>> {
+        override fun getValue(thisRef: Any, property: KProperty<*>): List<SingleChoiceView.Option> {
+            return singleChoiceView.allOptions
+        }
+
+        override fun setValue(
+            thisRef: Any,
+            property: KProperty<*>,
+            value: List<SingleChoiceView.Option>
+        ) {
+            singleChoiceView.setOptions(value)
+        }
+    }
+}
+
+fun SingleChoiceView.title(): ReadWriteProperty<Any, String> {
+    val singleChoiceView = this
+    return object : ReadWriteProperty<Any, String> {
+        override fun getValue(thisRef: Any, property: KProperty<*>): String {
+            return singleChoiceView.title
+        }
+
+        override fun setValue(
+            thisRef: Any,
+            property: KProperty<*>,
+            value: String
+        ) {
+            singleChoiceView.title = value
+        }
+    }
+}
+
+fun SingleChoiceView.currentOption(): ReadOnlyProperty<Any, Serializable?> {
+    return ReadOnlyProperty { _, _ -> getCurrentValue() }
 }

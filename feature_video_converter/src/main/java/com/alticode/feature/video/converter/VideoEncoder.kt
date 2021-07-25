@@ -78,7 +78,7 @@ sealed class VideoEncoder(
         const val OMX_GOOGLE_VP8 = "OMX.google.vp8.encoder"
         const val OMX_GOOGLE_VP9 = "OMX.google.vp9.encoder"
 
-        fun get() : List<VideoEncoder> {
+        fun get(): List<VideoEncoder> {
             val encoders = mutableListOf<VideoEncoder>()
             EncoderManager.getVideoEncoders().forEach {
                 when (it.name) {
@@ -102,5 +102,10 @@ sealed class VideoEncoder(
             }
             return encoders
         }
+    }
+
+    fun isSupport(format: String): Boolean {
+        val fileType = fileTypes.find { it.name.equals(format, ignoreCase = true) }
+        return fileType != null
     }
 }

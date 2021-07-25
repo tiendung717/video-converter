@@ -2,16 +2,16 @@ package com.alticode.feature.video.converter
 
 import java.io.Serializable
 
-sealed class VideoResolution(val name: String) : Serializable {
-    object R1080P : VideoResolution("1080P")
-    object R960P : VideoResolution("960P")
-    object R720P : VideoResolution("720P")
-    object R640P : VideoResolution("640P")
-    object R480P : VideoResolution("480P")
-    object R360P : VideoResolution("360P")
-    object R320P : VideoResolution("320P")
-    object R240P : VideoResolution("240P")
-    object R144P : VideoResolution("144P")
+sealed class VideoResolution(val name: String, val value: Int) : Serializable {
+    object R1080P : VideoResolution("1080P", 1072)
+    object R960P : VideoResolution("960P", 960)
+    object R720P : VideoResolution("720P", 720)
+    object R640P : VideoResolution("640P", 640)
+    object R480P : VideoResolution("480P", 480)
+    object R360P : VideoResolution("360P", 352)
+    object R320P : VideoResolution("320P", 320)
+    object R240P : VideoResolution("240P", 240)
+    object R144P : VideoResolution("144P", 144)
 
     companion object {
         fun get() = listOf(
@@ -25,5 +25,10 @@ sealed class VideoResolution(val name: String) : Serializable {
             R240P,
             R144P
         )
+    }
+
+    fun getWidth(orgWidth: Int, orgHeight: Int): Int {
+        val width = orgWidth * value / orgHeight
+        return (width / 16) * 16
     }
 }

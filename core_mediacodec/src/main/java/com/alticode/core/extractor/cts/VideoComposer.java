@@ -25,7 +25,7 @@ import android.media.MediaMuxer;
 import android.util.Log;
 import android.view.Surface;
 
-import com.alticode.core.extractor.model.MediaCodecParam;
+import com.alticode.core.extractor.model.MediaEncoderParam;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -33,9 +33,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class VideoComposer {
 
-    private final MediaCodecParam param;
+    private final MediaEncoderParam param;
 
-    public VideoComposer(MediaCodecParam param) {
+    public VideoComposer(MediaEncoderParam param) {
         this.param = param;
     }
 
@@ -91,12 +91,18 @@ public class VideoComposer {
 
         // Set some properties. Failing to specify some of these can cause the MediaCodec
         // configure() call to throw an unhelpful exception.
-        outputVideoFormat.setInteger(
-                MediaFormat.KEY_COLOR_FORMAT, OUTPUT_VIDEO_COLOR_FORMAT);
-        outputVideoFormat.setInteger(MediaFormat.KEY_BIT_RATE, param.getBitRate());
-        outputVideoFormat.setInteger(MediaFormat.KEY_FRAME_RATE, param.getFrameRate());
-        outputVideoFormat.setInteger(
-                MediaFormat.KEY_I_FRAME_INTERVAL, OUTPUT_VIDEO_IFRAME_INTERVAL);
+        outputVideoFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, OUTPUT_VIDEO_COLOR_FORMAT);
+        outputVideoFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, OUTPUT_VIDEO_IFRAME_INTERVAL);
+        if (param.getFrameRate() != 0) {
+            outputVideoFormat.setInteger(MediaFormat.KEY_FRAME_RATE, param.getFrameRate());
+        }
+//        if (param.getVideoEncoderProfile() != 0) {
+//            outputVideoFormat.setInteger(MediaFormat.KEY_PROFILE, param.getVideoEncoderProfile());
+//        }
+//        if (param.getVideoBitRate() != 0) {
+//            outputVideoFormat.setInteger(MediaFormat.KEY_BIT_RATE, param.getVideoBitRate());
+//        }
+
         if (VERBOSE) Log.d(TAG, "video format: " + outputVideoFormat);
 
         String videoEncoderName = mcl.findEncoderForFormat(outputVideoFormat);
@@ -107,10 +113,11 @@ public class VideoComposer {
         }
         if (VERBOSE) Log.d(TAG, "video found codec: " + videoEncoderName);
 
-        MediaFormat outputAudioFormat =
-                MediaFormat.createAudioFormat(
-                        param.getAudioMimeType(), param.getAudioSampleRate(),
-                        param.getAudioChannelCount());
+        MediaFormat outputAudioFormat = MediaFormat.createAudioFormat(
+                param.getAudioMimeType(),
+                param.getAudioSampleRate(),
+                param.getAudioChannelCount()
+        );
         outputAudioFormat.setInteger(MediaFormat.KEY_BIT_RATE, OUTPUT_AUDIO_BIT_RATE);
         // TODO: Bug workaround --- uncomment once fixed.
         // outputAudioFormat.setInteger(MediaFormat.KEY_AAC_PROFILE, OUTPUT_AUDIO_AAC_PROFILE);
@@ -421,7 +428,7 @@ public class VideoComposer {
 
         if (param.getCopyAudio()) {
             audioDecoderInputBuffers = audioDecoder.getInputBuffers();
-            audioDecoderOutputBuffers =  audioDecoder.getOutputBuffers();
+            audioDecoderOutputBuffers = audioDecoder.getOutputBuffers();
             audioEncoderInputBuffers = audioEncoder.getInputBuffers();
             audioEncoderOutputBuffers = audioEncoder.getOutputBuffers();
             audioDecoderOutputBufferInfo = new MediaCodec.BufferInfo();
