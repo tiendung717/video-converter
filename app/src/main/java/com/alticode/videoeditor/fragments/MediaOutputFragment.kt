@@ -50,7 +50,7 @@ class MediaOutputFragment : BaseFragment<FragmentMediaOutputBinding>(R.layout.fr
             val path = getVideoPath(uri)
             if (path != null) {
                 val editorDeepLink = NavDeepLinkRequest.Builder
-                    .fromUri(Uri.parse("nav://video.cutter/?path=$path"))
+                    .fromUri(Uri.parse("nav://video.converter/?path=$path"))
                     .build()
                 findNavController().navigate(editorDeepLink)
             }

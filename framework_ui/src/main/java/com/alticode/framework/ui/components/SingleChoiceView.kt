@@ -33,8 +33,8 @@ class SingleChoiceView(context: Context?, attrs: AttributeSet?) : RelativeLayout
     fun setData(title: String, options: List<Option>, defOption: Option? = null) {
         this.title = title
         this.defOption = defOption
-        this.valueText = defOption?.text.orEmpty()
         this.options.addAll(options)
+        this.valueText = defOption?.text ?: options[0].text
 
         setOnClickListener { showOptionDialog() }
     }
