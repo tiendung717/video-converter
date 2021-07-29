@@ -2,73 +2,64 @@ package com.alticode.feature.video.converter
 
 import android.media.MediaCodecInfo
 import android.media.MediaFormat
+import android.util.Range
 import java.io.Serializable
 
 sealed class VideoEncoder(
     val name: String,
     val profile: Int = 0,
     val fileTypes: List<FileType>,
-    val mimeType: String
+    val mimeType: String,
+    val capabilities: MediaCodecInfo.VideoCapabilities
 ) :
     Serializable {
-    object H264Baseline : VideoEncoder(
-        "H264 (BASELINE)",
-        profile = MediaCodecInfo.CodecProfileLevel.AVCProfileBaseline,
-        fileTypes = listOf(
-            FileType.MP4,
-            FileType.MKV,
-            FileType.ThreeGPP,
-            FileType.TS
-        ),
-        mimeType = MediaFormat.MIMETYPE_VIDEO_AVC
-    )
+    class H264Baseline(capabilities: MediaCodecInfo.VideoCapabilities) :
+        VideoEncoder(
+            "H264 (BASELINE)",
+            profile = MediaCodecInfo.CodecProfileLevel.AVCProfileBaseline,
+            fileTypes = listOf(FileType.MP4, FileType.MKV, FileType.ThreeGPP, FileType.TS),
+            mimeType = MediaFormat.MIMETYPE_VIDEO_AVC,
+            capabilities = capabilities
+        )
 
-    object H264Main : VideoEncoder(
+    class H264Main(capabilities: MediaCodecInfo.VideoCapabilities) : VideoEncoder(
         "H264 (MAIN)",
         profile = MediaCodecInfo.CodecProfileLevel.AVCProfileMain,
-        fileTypes = listOf(
-            FileType.MP4,
-            FileType.MKV,
-            FileType.ThreeGPP,
-            FileType.TS
-        ),
-        mimeType = MediaFormat.MIMETYPE_VIDEO_AVC
+        fileTypes = listOf(FileType.MP4, FileType.MKV, FileType.ThreeGPP, FileType.TS),
+        mimeType = MediaFormat.MIMETYPE_VIDEO_AVC,
+        capabilities = capabilities
     )
 
-    object H263 : VideoEncoder(
+    class H263(capabilities: MediaCodecInfo.VideoCapabilities) : VideoEncoder(
         "H263",
         fileTypes = listOf(
             FileType.MP4,
             FileType.MKV,
             FileType.ThreeGPP
         ),
-        mimeType = MediaFormat.MIMETYPE_VIDEO_H263
+        mimeType = MediaFormat.MIMETYPE_VIDEO_H263,
+        capabilities = capabilities
     )
 
-    object MPEG4 : VideoEncoder(
+    class MPEG4(capabilities: MediaCodecInfo.VideoCapabilities) : VideoEncoder(
         "MPEG4",
-        fileTypes = listOf(
-            FileType.ThreeGPP
-        ),
-        mimeType = MediaFormat.MIMETYPE_VIDEO_MPEG4
+        fileTypes = listOf(FileType.ThreeGPP),
+        mimeType = MediaFormat.MIMETYPE_VIDEO_MPEG4,
+        capabilities = capabilities
     )
 
-    object VP8 : VideoEncoder(
+    class VP8(capabilities: MediaCodecInfo.VideoCapabilities) : VideoEncoder(
         "VP8",
-        fileTypes = listOf(
-            FileType.MKV,
-            FileType.WEBM
-        ),
-        mimeType = MediaFormat.MIMETYPE_VIDEO_VP8
+        fileTypes = listOf(FileType.MKV, FileType.WEBM),
+        mimeType = MediaFormat.MIMETYPE_VIDEO_VP8,
+        capabilities = capabilities
     )
 
-    object VP9 : VideoEncoder(
+    class VP9(capabilities: MediaCodecInfo.VideoCapabilities) : VideoEncoder(
         "VP9",
-        fileTypes = listOf(
-            FileType.MKV,
-            FileType.WEBM
-        ),
-        mimeType = MediaFormat.MIMETYPE_VIDEO_VP9
+        fileTypes = listOf(FileType.MKV, FileType.WEBM),
+        mimeType = MediaFormat.MIMETYPE_VIDEO_VP9,
+        capabilities = capabilities
     )
 
     companion object {
@@ -83,20 +74,30 @@ sealed class VideoEncoder(
             EncoderManager.getVideoEncoders().forEach {
                 when (it.name) {
                     OMX_GOOGLE_H264 -> {
-                        encoders.add(H264Baseline)
-                        encoders.add(H264Main)
+                        val caps =
+                            it.getCapabilitiesForType(MediaFormat.MIMETYPE_VIDEO_AVC).videoCapabilities
+                        encoders.add(H264Baseline(caps))
+                        encoders.add(H264Main(caps))
                     }
                     OMX_GOOGLE_H263 -> {
-                        encoders.add(H263)
+                        val caps =
+                            it.getCapabilitiesForType(MediaFormat.MIMETYPE_VIDEO_H263).videoCapabilities
+                        encoders.add(H263(caps))
                     }
                     OMX_GOOGLE_MPEG4 -> {
-                        encoders.add(MPEG4)
+                        val caps =
+                            it.getCapabilitiesForType(MediaFormat.MIMETYPE_VIDEO_MPEG4).videoCapabilities
+                        encoders.add(MPEG4(caps))
                     }
                     OMX_GOOGLE_VP8 -> {
-                        encoders.add(VP8)
+                        val caps =
+                            it.getCapabilitiesForType(MediaFormat.MIMETYPE_VIDEO_VP8).videoCapabilities
+                        encoders.add(VP8(caps))
                     }
                     OMX_GOOGLE_VP9 -> {
-                        encoders.add(VP9)
+                        val caps =
+                            it.getCapabilitiesForType(MediaFormat.MIMETYPE_VIDEO_VP9).videoCapabilities
+                        encoders.add(VP9(caps))
                     }
                 }
             }
@@ -108,4 +109,10 @@ sealed class VideoEncoder(
         val fileType = fileTypes.find { it.name.equals(format, ignoreCase = true) }
         return fileType != null
     }
+
+    fun getFrameSupported() : Range<Int> = capabilities.supportedFrameRates
+
+    fun getBitrateSupported() = capabilities.bitrateRange
+
+    fun getHeightSupported() = capabilities.supportedHeights
 }

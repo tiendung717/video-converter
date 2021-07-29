@@ -99,9 +99,9 @@ public class VideoComposer {
 //        if (param.getVideoEncoderProfile() != 0) {
 //            outputVideoFormat.setInteger(MediaFormat.KEY_PROFILE, param.getVideoEncoderProfile());
 //        }
-//        if (param.getVideoBitRate() != 0) {
-//            outputVideoFormat.setInteger(MediaFormat.KEY_BIT_RATE, param.getVideoBitRate());
-//        }
+        if (param.getVideoBitRate() != 0) {
+            outputVideoFormat.setInteger(MediaFormat.KEY_BIT_RATE, param.getVideoBitRate());
+        }
 
         if (VERBOSE) Log.d(TAG, "video format: " + outputVideoFormat);
 

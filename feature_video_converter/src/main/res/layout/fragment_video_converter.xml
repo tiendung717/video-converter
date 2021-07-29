@@ -31,6 +31,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvVideoBitrate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Video bitrate" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/sliderVideoBitrate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnConvert"
             android:layout_width="match_parent"

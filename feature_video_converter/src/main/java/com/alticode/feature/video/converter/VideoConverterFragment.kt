@@ -48,18 +48,6 @@ class VideoConverterFragment :
             }
         }
 
-        // Resolution
-        binding.resolution.apply {
-            title = "Resolution"
-            optionList = VideoResolution.get().map { SingleChoiceView.Option(it.name, it) }
-        }
-
-        // Frame rate
-        binding.frameRate.apply {
-            title = "Frame rate"
-            optionList = FrameRate.get().map { SingleChoiceView.Option(it.name, it) }
-        }
-
         // audio codec
         binding.audioCodec.apply {
             title = "Audio codec"
@@ -75,15 +63,69 @@ class VideoConverterFragment :
                 .map {
                     SingleChoiceView.Option(it.name, it)
                 }
+            optionChangedListener = {
+                onVideoEncoderChanged()
+            }
+        }
+
+        // Resolution
+        binding.resolution.apply {
+            title = "Resolution"
+            optionList = VideoResolution.get()
+                .filter { filterResolution(it) }
+                .map { SingleChoiceView.Option(it.name, it) }
+        }
+
+        // Frame rate
+        binding.frameRate.apply {
+            title = "Frame rate"
+            optionList = FrameRate.get()
+                .filter { filterFrameRate(it) }
+                .map { SingleChoiceView.Option(it.name, it) }
+        }
+
+        binding.sliderVideoBitrate.apply {
+            val videoEncoder = binding.videoCodec.getCurrentValue() as VideoEncoder
+            valueFrom = videoEncoder.getBitrateSupported().lower.toFloat()
+            valueTo = videoEncoder.getBitrateSupported().upper.toFloat()
+            value = valueTo
         }
 
         binding.btnConvert.setOnClickListener { convert() }
+    }
+
+    private fun onVideoEncoderChanged() {
+        binding.frameRate.optionList = FrameRate.get()
+            .filter { filterFrameRate(it) }
+            .map { SingleChoiceView.Option(it.name, it) }
+
+        binding.resolution.optionList = VideoResolution.get()
+            .filter { filterResolution(it) }
+            .map { SingleChoiceView.Option(it.name, it) }
+
+        binding.sliderVideoBitrate.apply {
+            val videoEncoder = binding.videoCodec.getCurrentValue() as VideoEncoder
+            valueFrom = videoEncoder.getBitrateSupported().lower.toFloat()
+            valueTo = videoEncoder.getBitrateSupported().upper.toFloat()
+            value = valueTo
+        }
+    }
+
+    private fun filterFrameRate(frameRate: FrameRate): Boolean {
+        val videoEncoder = binding.videoCodec.getCurrentValue() as VideoEncoder
+        return frameRate.value <= videoEncoder.getFrameSupported().upper
+    }
+
+    private fun filterResolution(resolution: VideoResolution): Boolean {
+        val videoEncoder = binding.videoCodec.getCurrentValue() as VideoEncoder
+        return resolution.value <= videoEncoder.getHeightSupported().upper
     }
 
     private fun getEncoderParam(): MediaEncoderParam {
         val format = binding.format.selectedOption as FileType
         val resolution = binding.resolution.selectedOption as VideoResolution
         val frameRate = binding.frameRate.selectedOption as FrameRate
+        val videoBitrate = binding.sliderVideoBitrate.value.toInt()
         val videoEncoder = binding.videoCodec.selectedOption as VideoEncoder
         val audioEncoder = binding.audioCodec.selectedOption as AudioEncoder
         val outputPath = FileUtils.getOutputPath(File(args.path).name, format.name.lowercase())
@@ -98,7 +140,7 @@ class VideoConverterFragment :
             width = resolution.getWidth(mediaInfo.width, mediaInfo.height),
             height = resolution.value,
             frameRate = frameRate.value,
-            videoBitRate = 2_000_000,
+            videoBitRate = videoBitrate,
             audioMimeType = audioEncoder.mimeType,
             audioChannelCount = mediaInfo.audioChannelCount,
             audioSampleRate = mediaInfo.audioSampleRate,
