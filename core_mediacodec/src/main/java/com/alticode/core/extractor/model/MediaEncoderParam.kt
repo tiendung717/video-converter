@@ -4,12 +4,14 @@ import android.media.MediaCodecInfo
 import android.media.MediaCodecList
 
 data class MediaEncoderParam(
+    val videoCodecName: String,
     val videoMimeType: String,
     val videoEncoderProfile: Int,
     val width: Int,
     val height: Int,
     val videoBitRate: Int,
     val frameRate: Int,
+    val audioCodecName: String,
     val audioMimeType: String,
     val audioChannelCount: Int,
     val audioSampleRate: Int,

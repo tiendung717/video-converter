@@ -1,8 +1,9 @@
 package com.alticode.feature.video.converter
 
+import android.util.Range
 import java.io.Serializable
 
-sealed class VideoResolution(val name: String, val value: Int) : Serializable {
+sealed class VideoResolution(val name: String, val height: Int) : Serializable {
     object R1080P : VideoResolution("1080P", 1072)
     object R960P : VideoResolution("960P", 960)
     object R720P : VideoResolution("720P", 720)
@@ -27,8 +28,10 @@ sealed class VideoResolution(val name: String, val value: Int) : Serializable {
         )
     }
 
-    fun getWidth(orgWidth: Int, orgHeight: Int): Int {
-        val width = orgWidth * value / orgHeight
-        return (width / 16) * 16
+    fun getWidth(orgWidth: Int, orgHeight: Int, supportedWidth: Range<Int>, widthAlignment: Int = 16): Int {
+        var width = ((orgWidth * height / orgHeight) / widthAlignment) * widthAlignment
+        if (width > supportedWidth.upper) width = supportedWidth.upper
+        else if (width < supportedWidth.lower) width = supportedWidth.lower
+        return width
     }
 }

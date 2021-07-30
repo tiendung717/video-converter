@@ -24,6 +24,7 @@ class AltiMediaCodecImpl : AltiMediaCodec {
         val audioSampleRate = audioFormat.getInteger(MediaFormat.KEY_SAMPLE_RATE)
         val audioChannelCount = audioFormat.getInteger(MediaFormat.KEY_CHANNEL_COUNT)
 
+        AppLog.d("Origin $width x $height")
         mediaExtractor.release()
         return MediaInfo(
             width = width,

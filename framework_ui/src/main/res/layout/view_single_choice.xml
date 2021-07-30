@@ -14,7 +14,6 @@
         android:layout_centerVertical="true"
         android:layout_toStartOf="@id/tvValue"
         android:ellipsize="end"
-        android:padding="12dp"
         android:singleLine="true"
         android:textAllCaps="true"
         android:textSize="14sp"

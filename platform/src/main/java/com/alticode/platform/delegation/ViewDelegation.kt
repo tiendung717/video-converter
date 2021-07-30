@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import com.google.android.material.slider.Slider
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -32,17 +33,6 @@ fun Button.text(): ReadWriteProperty<Any, String> =
         }
     }
 
-fun TextView.hideIfEmpty(): ReadWriteProperty<Any, String?> =
-    object : ReadWriteProperty<Any, String?> {
-        override fun getValue(thisRef: Any, property: KProperty<*>): String {
-            return text.toString()
-        }
-
-        override fun setValue(thisRef: Any, property: KProperty<*>, value: String?) {
-            text = value
-            visibility = if(value == null || value.isEmpty()) View.GONE else View.VISIBLE
-        }
-    }
 
 fun TextView?.textColor(): ReadWriteProperty<Any, Int> {
     val textView = this
@@ -53,6 +43,42 @@ fun TextView?.textColor(): ReadWriteProperty<Any, Int> {
 
         override fun setValue(thisRef: Any, property: KProperty<*>, value: Int) {
             textView?.setTextColor(value)
+        }
+    }
+}
+
+fun Slider.valueFrom(): ReadWriteProperty<Any, Float> {
+    return object : ReadWriteProperty<Any, Float> {
+        override fun getValue(thisRef: Any, property: KProperty<*>): Float {
+            return valueFrom
+        }
+
+        override fun setValue(thisRef: Any, property: KProperty<*>, value: Float) {
+            valueFrom = value
+        }
+    }
+}
+
+fun Slider.valueTo(): ReadWriteProperty<Any, Float> {
+    return object : ReadWriteProperty<Any, Float> {
+        override fun getValue(thisRef: Any, property: KProperty<*>): Float {
+            return valueTo
+        }
+
+        override fun setValue(thisRef: Any, property: KProperty<*>, value: Float) {
+            valueTo = value
+        }
+    }
+}
+
+fun Slider.value(): ReadWriteProperty<Any, Float> {
+    return object : ReadWriteProperty<Any, Float> {
+        override fun getValue(thisRef: Any, property: KProperty<*>): Float {
+            return value
+        }
+
+        override fun setValue(thisRef: Any, property: KProperty<*>, fValue: Float) {
+            value = fValue
         }
     }
 }
