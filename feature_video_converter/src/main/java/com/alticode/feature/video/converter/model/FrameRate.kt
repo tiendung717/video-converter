@@ -1,4 +1,4 @@
-package com.alticode.feature.video.converter
+package com.alticode.feature.video.converter.model
 
 import java.io.Serializable
 

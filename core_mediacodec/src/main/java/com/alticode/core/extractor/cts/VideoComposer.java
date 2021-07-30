@@ -17,16 +17,14 @@
 package com.alticode.core.extractor.cts;
 
 import android.media.MediaCodec;
-import android.media.MediaCodecInfo;
 import android.media.MediaCodecInfo.CodecCapabilities;
 import android.media.MediaCodecList;
 import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.media.MediaMuxer;
-import android.util.Log;
 import android.view.Surface;
 
-import com.alticode.core.extractor.model.MediaEncoderParam;
+import com.alticode.core.extractor.model.EncoderParam;
 import com.alticode.platform.log.AppLog;
 
 import java.io.IOException;
@@ -35,19 +33,18 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class VideoComposer {
 
-    private final MediaEncoderParam param;
+    private final EncoderParam param;
 
-    public VideoComposer(MediaEncoderParam param) {
+    public VideoComposer(EncoderParam param) {
         this.param = param;
     }
 
-    private static final String TAG = VideoComposer.class.getSimpleName();
-    private static final boolean VERBOSE = true; // lots of logging
+    private static final boolean VERBOSE = true;
 
     /**
      * How long to wait for the next buffer to become available.
      */
-    private static final int TIMEOUT_USES = 10000;
+    private static final int TIMEOUT_USEC = 10000;
 
     // parameters for the video encoder
     private static final int OUTPUT_VIDEO_IFRAME_INTERVAL = 10; // 10 seconds between I-frames
@@ -98,9 +95,6 @@ public class VideoComposer {
         if (param.getFrameRate() != 0) {
             outputVideoFormat.setInteger(MediaFormat.KEY_FRAME_RATE, param.getFrameRate());
         }
-//        if (param.getVideoEncoderProfile() != 0) {
-//            outputVideoFormat.setInteger(MediaFormat.KEY_PROFILE, param.getVideoEncoderProfile());
-//        }
         if (param.getVideoBitRate() != 0) {
             outputVideoFormat.setInteger(MediaFormat.KEY_BIT_RATE, param.getVideoBitRate());
         }
@@ -212,7 +206,7 @@ public class VideoComposer {
                     outputSurface.release();
                 }
             } catch (Exception e) {
-                AppLog.INSTANCE.d( "error while releasing outputSurface"+ e.getMessage());
+                AppLog.INSTANCE.d( "error while releasing outputSurface >> "+ e.getMessage());
                 if (exception == null) {
                     exception = e;
                 }
@@ -223,7 +217,7 @@ public class VideoComposer {
                     videoEncoder.release();
                 }
             } catch (Exception e) {
-                AppLog.INSTANCE.d( "error while releasing videoEncoder >>" + e.getMessage());
+                AppLog.INSTANCE.d( "error while releasing videoEncoder >> " + e.getMessage());
                 if (exception == null) {
                     exception = e;
                 }
@@ -234,7 +228,7 @@ public class VideoComposer {
                     audioDecoder.release();
                 }
             } catch (Exception e) {
-                AppLog.INSTANCE.d( "error while releasing audioDecoder >>" + e.getMessage());
+                AppLog.INSTANCE.d( "error while releasing audioDecoder >> " + e.getMessage());
                 if (exception == null) {
                     exception = e;
                 }
@@ -491,7 +485,7 @@ public class VideoComposer {
             // ready to mux the frames.
             while (param.getCopyVideo() && !videoExtractorDone
                     && (encoderOutputVideoFormat == null || muxing)) {
-                int decoderInputBufferIndex = videoDecoder.dequeueInputBuffer(TIMEOUT_USES);
+                int decoderInputBufferIndex = videoDecoder.dequeueInputBuffer(TIMEOUT_USEC);
                 if (decoderInputBufferIndex == MediaCodec.INFO_TRY_AGAIN_LATER) {
                     if (VERBOSE) AppLog.INSTANCE.d( "no video decoder input buffer");
                     break;
@@ -530,7 +524,7 @@ public class VideoComposer {
             // ready to mux the frames.
             while (param.getCopyAudio() && !audioExtractorDone
                     && (encoderOutputAudioFormat == null || muxing)) {
-                int decoderInputBufferIndex = audioDecoder.dequeueInputBuffer(TIMEOUT_USES);
+                int decoderInputBufferIndex = audioDecoder.dequeueInputBuffer(TIMEOUT_USEC);
                 if (decoderInputBufferIndex == MediaCodec.INFO_TRY_AGAIN_LATER) {
                     if (VERBOSE) AppLog.INSTANCE.d( "no audio decoder input buffer");
                     break;
@@ -574,7 +568,7 @@ public class VideoComposer {
                     && (encoderOutputVideoFormat == null || muxing)) {
                 int decoderOutputBufferIndex =
                         videoDecoder.dequeueOutputBuffer(
-                                videoDecoderOutputBufferInfo, TIMEOUT_USES);
+                                videoDecoderOutputBufferInfo, TIMEOUT_USEC);
                 if (decoderOutputBufferIndex == MediaCodec.INFO_TRY_AGAIN_LATER) {
                     if (VERBOSE) AppLog.INSTANCE.d( "no video decoder output buffer");
                     break;
@@ -641,7 +635,7 @@ public class VideoComposer {
                     && (encoderOutputAudioFormat == null || muxing)) {
                 int decoderOutputBufferIndex =
                         audioDecoder.dequeueOutputBuffer(
-                                audioDecoderOutputBufferInfo, TIMEOUT_USES);
+                                audioDecoderOutputBufferInfo, TIMEOUT_USEC);
                 if (decoderOutputBufferIndex == MediaCodec.INFO_TRY_AGAIN_LATER) {
                     if (VERBOSE) AppLog.INSTANCE.d( "no audio decoder output buffer");
                     break;
@@ -695,7 +689,7 @@ public class VideoComposer {
                     AppLog.INSTANCE.d( "audio decoder: attempting to process pending buffer: "
                             + pendingAudioDecoderOutputBufferIndex);
                 }
-                int encoderInputBufferIndex = audioEncoder.dequeueInputBuffer(TIMEOUT_USES);
+                int encoderInputBufferIndex = audioEncoder.dequeueInputBuffer(TIMEOUT_USEC);
                 if (encoderInputBufferIndex == MediaCodec.INFO_TRY_AGAIN_LATER) {
                     if (VERBOSE) AppLog.INSTANCE.d( "no audio encoder input buffer");
                     break;
@@ -745,7 +739,7 @@ public class VideoComposer {
             while (param.getCopyVideo() && !videoEncoderDone
                     && (encoderOutputVideoFormat == null || muxing)) {
                 int encoderOutputBufferIndex = videoEncoder.dequeueOutputBuffer(
-                        videoEncoderOutputBufferInfo, TIMEOUT_USES);
+                        videoEncoderOutputBufferInfo, TIMEOUT_USEC);
                 if (encoderOutputBufferIndex == MediaCodec.INFO_TRY_AGAIN_LATER) {
                     if (VERBOSE) AppLog.INSTANCE.d( "no video encoder output buffer");
                     break;
@@ -798,7 +792,7 @@ public class VideoComposer {
             while (param.getCopyAudio() && !audioEncoderDone
                     && (encoderOutputAudioFormat == null || muxing)) {
                 int encoderOutputBufferIndex = audioEncoder.dequeueOutputBuffer(
-                        audioEncoderOutputBufferInfo, TIMEOUT_USES);
+                        audioEncoderOutputBufferInfo, TIMEOUT_USEC);
                 if (encoderOutputBufferIndex == MediaCodec.INFO_TRY_AGAIN_LATER) {
                     if (VERBOSE) AppLog.INSTANCE.d( "no audio encoder output buffer");
                     break;

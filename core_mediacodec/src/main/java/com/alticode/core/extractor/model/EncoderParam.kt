@@ -3,10 +3,9 @@ package com.alticode.core.extractor.model
 import android.media.MediaCodecInfo
 import android.media.MediaCodecList
 
-data class MediaEncoderParam(
+data class EncoderParam(
     val videoCodecName: String,
     val videoMimeType: String,
-    val videoEncoderProfile: Int,
     val width: Int,
     val height: Int,
     val videoBitRate: Int,

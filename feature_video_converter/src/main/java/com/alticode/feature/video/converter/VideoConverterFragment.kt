@@ -5,9 +5,10 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.alticode.core.extractor.AltiMediaCodec
-import com.alticode.core.extractor.model.MediaEncoderParam
+import com.alticode.core.extractor.model.EncoderParam
 import com.alticode.core.extractor.model.MediaInfo
 import com.alticode.feature.video.converter.databinding.FragmentVideoConverterBinding
+import com.alticode.feature.video.converter.model.*
 import com.alticode.framework.ui.base.BaseFragment
 import com.alticode.framework.ui.components.SingleChoiceView
 import com.alticode.platform.log.AppLog
@@ -37,7 +38,7 @@ class VideoConverterFragment :
         binding.format.apply {
             title = "Format"
             optionList = videoEncoders
-                .flatMap { it.fileTypes }
+                .flatMap { it.videoFormats }
                 .distinctBy { it.name }
                 .map { SingleChoiceView.Option(it.name, it) }
             optionChangedListener = { onVideoFormatChanged() }
@@ -52,7 +53,7 @@ class VideoConverterFragment :
 
         // video codec
         binding.videoCodec.apply {
-            val currentFileType = binding.format.selectedOption as FileType
+            val currentFileType = binding.format.selectedOption as VideoFormat
             title = "Video codec"
             optionList = videoEncoders
                 .filter { encoder -> encoder.isSupport(currentFileType.name) }
@@ -109,7 +110,7 @@ class VideoConverterFragment :
     }
 
     private fun onVideoFormatChanged() {
-        val currentFileType = binding.format.selectedOption as FileType
+        val currentFileType = binding.format.selectedOption as VideoFormat
         binding.videoCodec.optionList = videoEncoders
             .filter { videoEncoder -> videoEncoder.isSupport(currentFileType.name) }
             .map { videoEncoder ->
@@ -160,8 +161,8 @@ class VideoConverterFragment :
         return Pair(width, height)
     }
 
-    private fun getEncoderParam(): MediaEncoderParam {
-        val format = binding.format.selectedOption as FileType
+    private fun getEncoderParam(): EncoderParam {
+        val format = binding.format.selectedOption as VideoFormat
         val resolution = getResolution()
         val frameRate = binding.frameRate.selectedOption as FrameRate
         val videoBitrate = binding.sliderVideoBitrate.value.toInt()
@@ -170,21 +171,22 @@ class VideoConverterFragment :
         val audioEncoder = binding.audioCodec.selectedOption as AudioEncoder
         val outputPath = FileUtils.getOutputPath(File(args.path).name, format.name.lowercase())
 
-        return MediaEncoderParam(
+        return EncoderParam(
             inputPath = args.path,
             outputPath = outputPath,
-            videoCodecName = videoEncoder.codecName,
+            videoCodecName = videoEncoder.codecInfo.name,
             videoMimeType = videoEncoder.mimeType,
-            videoEncoderProfile = videoEncoder.profile,
             width = resolution.first,
             height = resolution.second,
             frameRate = frameRate.value,
             videoBitRate = videoBitrate,
-            audioCodecName = audioEncoder.codecName,
+            audioCodecName = audioEncoder.codecInfo.name,
             audioMimeType = audioEncoder.mimeType,
             audioChannelCount = mediaInfo.audioChannelCount,
             audioSampleRate = mediaInfo.audioSampleRate,
-            audioBitRate = audioBitrate
+            audioBitRate = audioBitrate,
+            copyVideo = true,
+            copyAudio = true
         )
     }
 
@@ -195,7 +197,7 @@ class VideoConverterFragment :
             val isSupported = videoEncoder.areSizeAndRateSupported(encoderParam.width, encoderParam.height, encoderParam.frameRate)
             AppLog.d("Video isSupported? $isSupported")
             if (isSupported) {
-                mediaCodec.encodeVideo(encoderParam)
+                mediaCodec.convert(encoderParam)
             }
         }
     }

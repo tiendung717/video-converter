@@ -1,4 +1,4 @@
-package com.alticode.feature.video.converter
+package com.alticode.feature.video.converter.model
 
 import android.util.Range
 import java.io.Serializable

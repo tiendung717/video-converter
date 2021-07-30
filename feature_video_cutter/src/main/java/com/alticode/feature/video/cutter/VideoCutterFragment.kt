@@ -1,6 +1,5 @@
 package com.alticode.feature.video.cutter
 
-import android.media.MediaFormat
 import android.os.Bundle
 import android.os.Environment
 import android.view.View
@@ -9,7 +8,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.alticode.core.extractor.AltiMediaCodec
-import com.alticode.core.extractor.model.MediaEncoderParam
 import com.alticode.core.ffmpeg.FFCallback
 import com.alticode.core.ffmpeg.FFStepExtension
 import com.alticode.core.ffmpeg.FFmpegExecutor
@@ -17,7 +15,6 @@ import com.alticode.framework.ui.base.BaseFragment
 import com.alticode.feature.video.R
 import com.alticode.feature.video.databinding.FragmentVideoCutterBinding
 import com.alticode.framework.ui.components.DropDownMenu
-import com.alticode.framework.ui.components.SingleChoiceView
 import com.alticode.framework.ui.viewmodel.UniverseViewModel
 import com.alticode.platform.log.AppLog
 import dagger.hilt.android.AndroidEntryPoint
